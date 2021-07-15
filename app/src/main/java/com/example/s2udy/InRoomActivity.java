@@ -32,8 +32,12 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     TextView tvTitle, tvHost, tvDescription;
     CardView cvTimer, cvList, cvChat, cvMusic;
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment fragment;
     BottomNavigationView bottomNavigation;
+    Fragment fragment;
+    Fragment timerFragment = new TimerFragment();
+    Fragment listFragment = new ListFragment();
+    Fragment chatFragment = new ChatFragment();
+    Fragment musicFragment = new MusicFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -78,16 +82,16 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
                 switch(item.getItemId())
                 {
                     case R.id.action_timer:
-                        fragment = new TimerFragment();
+                        fragment = timerFragment;
                         break;
                     case R.id.action_list:
-                        fragment = new ListFragment();
+                        fragment = listFragment;
                         break;
                     case R.id.action_chat:
-                        fragment = new ChatFragment();
+                        fragment = chatFragment;
                         break;
                     case R.id.action_music:
-                        fragment = new MusicFragment();
+                        fragment = musicFragment;
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.rlContainer, fragment).commit();
@@ -95,7 +99,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-    // TODO: dont reopen fragment if already open; implement check
+
     @Override
     public void onClick(View v)
     {
@@ -103,19 +107,23 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         {
             case R.id.cvTimer:
                 Log.i(TAG, "onClick cvTimer");
-                fragment = new TimerFragment();
+                fragment = timerFragment;
+                bottomNavigation.setSelectedItemId(R.id.action_timer);
                 break;
             case R.id.cvList:
                 Log.i(TAG, "onClick cvList");
-                fragment = new ListFragment();
+                fragment = listFragment;
+                bottomNavigation.setSelectedItemId(R.id.action_list);
                 break;
             case R.id.cvChat:
                 Log.i(TAG, "onClick cvChat");
-                fragment = new ChatFragment();
+                fragment = chatFragment;
+                bottomNavigation.setSelectedItemId(R.id.action_chat);
                 break;
             case R.id.cvMusic:
                 Log.i(TAG, "onClick cvMusic");
-                fragment = new MusicFragment();
+                fragment = musicFragment;
+                bottomNavigation.setSelectedItemId(R.id.action_music);
                 break;
         }
         fragmentManager.beginTransaction().replace(R.id.rlContainer, fragment).commit();
