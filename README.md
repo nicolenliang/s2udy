@@ -25,79 +25,77 @@
 
 ## Product Specs
 ### Study Together
-<details>
-    <summary><b>Product Spec</b></summary>
     
-        1. User Stories (Required and Optional)
-            * Required Must-have Stories
-                - User can create account
-                - User can log in
-                - User can create study room
-                - User can join study room
-                - User can edit task list
-                - User can set timer
-                - User can chat
-                - User can play music
+   1. User Stories (Required and Optional)
+        * Required Must-have Stories
+            - [x] User can create account
+            - [x] User can log in
+            - [x] User can create study room
+            - [ ] User can join study room
+            - [ ] User can edit task list
+            - [ ] User can set timer
+            - [ ] User can chat
+            - [ ] User can play music
 
-            * Optional Nice-to-have Stories
-                - User can create private rooms
-                - User can share rooms through invitation links
-                - User can have personal task list and timer
+        * Optional Nice-to-have Stories
+            - [ ] User can create private rooms
+            - [ ] User can share rooms through invitation links
+            - [ ] User can have personal task list and timer
+            - [ ] User can upload and edit a profile picture
             
 
-        2. Screen Archetypes
-            * Registration screen
-                - User can create account
-            * Login screen
-                - User can log in
-            * Create room screen
-                - User can create study room
-            * Rooms screen
-                - User can join study room
-            * Home room screen
-                - User can edit task list
-                - User can set timer
-                - User can chat
-                - User can play music
-            * Tasklist screen
-                - User can edit task list
-            * Timer screen
-                - User can set tier
-            * Chat screen
-                - User can chat
-            * Music screen
-                - User can play music
+   2. Screen Archetypes
+        * Registration screen
+            - User can create account
+        * Login screen
+            - User can log in
+        * Create room screen
+            - User can create study room
+        * Rooms screen
+            - User can join study room
+        * Home room screen
+            - User can edit task list
+            - User can set timer
+            - User can chat
+            - User can play music
+        * Tasklist screen
+            - User can edit task list
+        * Timer screen
+            - User can set tier
+        * Chat screen
+            - User can chat
+        * Music screen
+            - User can play music
 
 
-        3. Navigation
-            * Tab Navigation (Tab to Screen)
-                - Create room screen
-                - Tasklist screen
-                - Timer screen
-                - Chat screen
-                - Music screen
+   3. Navigation
+        * Tab Navigation (Tab to Screen)
+            - Create room screen
+            - Tasklist screen
+            - Timer screen
+            - Chat screen
+            - Music screen
 
-            * Flow Navigation (Screen to Screen)
-                - Registration screen
-                    --> Login screen
-                    --> Rooms screen
-                - Login screen
-                    --> Registration screen
-                    --> Rooms screen
-                - Create room screen
-                    --> Home room screen
-                    --> Rooms screen (cancel creation)
-                - Rooms screen
-                    --> Create room screen
-                    --> Home room screen (upon joining)
-                - Home room screen
-                    --> Tasklist screen
-                    --> Timer screen
-                    --> Chat screen
-                    --> Music screen
-                - Tasklist, Timer, Chat, Music screens
-                    --> Home room screen 
-</details>
+        * Flow Navigation (Screen to Screen)
+            - Registration screen
+                --> Login screen
+                --> Rooms screen
+            - Login screen
+                --> Registration screen
+                --> Rooms screen
+            - Create room screen
+                --> Home room screen
+                --> Rooms screen (cancel creation)
+            - Rooms screen
+                --> Create room screen
+                --> Home room screen (upon joining)
+            - Home room screen
+                --> Tasklist screen
+                --> Timer screen
+                --> Chat screen
+                --> Music screen
+            - Tasklist, Timer, Chat, Music screens
+                --> Home room screen 
 
 
 ## Wireframes
