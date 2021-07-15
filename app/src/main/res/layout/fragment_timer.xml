@@ -26,6 +26,48 @@
             android:layout_marginTop="30dp"
             android:text="TIMER"
             android:textSize="34sp" />
+
+        <EditText
+            android:id="@+id/etTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:ems="10"
+            android:hint="hh:mm:ss"
+            android:inputType="time"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/btnStartPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp"
+            android:text="start" />
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:text="00:00"
+            android:textSize="60sp" />
+
+        <Button
+            android:id="@+id/btnReset"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="55dp"
+            android:text="reset"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
