@@ -22,15 +22,11 @@ public class ChatFragment extends Fragment
     CardView cvChat;
     TextView tvTitle;
 
-    public ChatFragment()
-    {
-        // Required empty public constructor
-    }
+    public ChatFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
