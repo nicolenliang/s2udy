@@ -63,6 +63,12 @@ public class TimerFragment extends Fragment
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         cvTimer.startAnimation(bottomUp);
 
+        // manually set text in case user leaves activity and comes back
+        if (timerStarted)
+            btnStartPause.setText("pause");
+        else
+            btnStartPause.setText("start");
+
         btnStartPause.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -78,13 +84,16 @@ public class TimerFragment extends Fragment
                 }
                 else
                 {
-                    String input = etTimer.getText().toString();
-                    if (input.isEmpty())
+                    if (!timerStarted)
                     {
-                        Toast.makeText(getContext(), "timer cannot be empty!", Toast.LENGTH_SHORT).show();
-                        return;
+                        String input = etTimer.getText().toString();
+                        if (input.isEmpty())
+                        {
+                            Toast.makeText(getContext(), "timer cannot be empty!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        parseInput(input);
                     }
-                    parseInput(input);
                     startTimer();
                 }
             }
@@ -149,6 +158,7 @@ public class TimerFragment extends Fragment
         timerRunning = true;
         btnStartPause.setText("pause"); // if timer is running, button gives option to pause
         btnReset.setVisibility(View.INVISIBLE);
+        etTimer.setText("");
     }
 
     private long parseInput(String input)
