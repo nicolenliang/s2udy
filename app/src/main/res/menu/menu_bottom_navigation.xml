@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_chat"
+        android:icon="@drawable/ic_baseline_chat_bubble"
+        android:title="chat"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_timer"
+        android:icon="@drawable/ic_baseline_timer"
+        android:title="timer"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_list"
+        android:icon="@drawable/ic_baseline_format_list_bulleted"
+        android:title="to-do"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_music"
+        android:icon="@drawable/ic_baseline_music_note"
+        android:title="music"
+        app:showAsAction="always" />
+</menu>
