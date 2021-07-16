@@ -27,6 +27,36 @@
             android:layout_marginTop="30dp"
             android:text="TO-DO LIST"
             android:textSize="34sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="350dp"
+            android:layout_height="425dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp" />
+
+        <EditText
+            android:id="@+id/etItem"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="100dp"
+            android:background="#c3c3c3"
+            android:ems="10"
+            android:hint="add an item!"
+            android:inputType="none"
+            android:paddingBottom="20dp" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="115dp"
+            android:text="add" />
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
