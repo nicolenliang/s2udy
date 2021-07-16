@@ -1,4 +1,4 @@
-package com.example.s2udy;
+package com.example.s2udy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.s2udy.InRoomActivity;
+import com.example.s2udy.R;
 import com.example.s2udy.models.Room;
 
 import org.parceler.Parcels;
