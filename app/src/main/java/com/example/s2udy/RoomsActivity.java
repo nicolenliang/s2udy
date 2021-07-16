@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.example.s2udy.adapters.RoomsAdapter;
 import com.example.s2udy.models.Room;
 import com.parse.FindCallback;
 import com.parse.ParseException;
