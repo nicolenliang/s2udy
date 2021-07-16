@@ -59,6 +59,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         tvTitle.setText(room.getName());
         tvHost.setText(room.getHost().getUsername());
         tvDescription.setText(room.getDescription());
+
         cvTimer.setOnClickListener(this);
         cvList.setOnClickListener(this);
         cvChat.setOnClickListener(this);
@@ -94,7 +95,10 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
                         fragment = musicFragment;
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.rlContainer, fragment).commit();
+                if (fragment.isVisible())
+                    fragmentManager.beginTransaction().remove(fragment).commit();
+                else
+                    fragmentManager.beginTransaction().replace(R.id.rlContainer, fragment).commit();
                 return true;
             }
         });
