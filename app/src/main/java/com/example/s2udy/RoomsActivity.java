@@ -28,6 +28,7 @@ public class RoomsActivity extends AppCompatActivity
     RoomsAdapter adapter;
     List<Room> rooms;
     SwipeRefreshLayout swipeContainer;
+    EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +47,15 @@ public class RoomsActivity extends AppCompatActivity
         rvRooms.setLayoutManager(gridLayoutManager);
         queryRooms();
 
+        btnCreate.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(RoomsActivity.this, CreateActivity.class);
+                startActivity(i);
+            }
+        });
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
         {
             @Override
@@ -56,13 +66,37 @@ public class RoomsActivity extends AppCompatActivity
                 swipeContainer.setRefreshing(false);
             }
         });
-        btnCreate.setOnClickListener(new View.OnClickListener()
+        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager)
         {
             @Override
-            public void onClick(View v)
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view)
             {
-                Intent i = new Intent(RoomsActivity.this, CreateActivity.class);
-                startActivity(i);
+                moreRooms();
+            }
+        };
+    }
+
+    private void moreRooms()
+    {
+        ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
+        query.include(Room.KEY_HOST);
+        query.setSkip(rooms.size());
+        query.setLimit(10);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Room>()
+        {
+            @Override
+            public void done(List<Room> objects, ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "moreRooms issue in querying", e);
+                    return;
+                }
+                for (Room room : objects)
+                    Log.i(TAG, "room name: " + room.getName() + "; host: " + room.getHost().getUsername());
+                rooms.addAll(objects);
+                adapter.notifyDataSetChanged();
             }
         });
     }
