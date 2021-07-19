@@ -31,10 +31,10 @@
             - [x] User can create account
             - [x] User can log in
             - [x] User can create study room
-            - [ ] User can join study room
-            - [ ] User can edit task list
-            - [ ] User can set timer
-            - [ ] User can chat
+            - [x] User can join study room
+            - [x] User can edit task list
+            - [x] User can set timer
+            - [x] User can chat
             - [ ] User can play music
 
         * Optional Nice-to-have Stories
