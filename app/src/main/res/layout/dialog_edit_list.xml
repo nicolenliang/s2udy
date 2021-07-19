@@ -13,6 +13,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="none"
+        android:selectAllOnFocus="true"
         tools:text="hello edit item here" />
 
 </RelativeLayout>
