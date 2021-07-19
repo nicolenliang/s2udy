@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/message_incoming.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="60dp"
+    android:clipToPadding="false">
+
+    <TextView
+        android:id="@+id/tvUser"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/ivProfileOther"
+        android:layout_alignTop="@+id/ivProfileOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:text="Johny Lindsey" />
+
+    <ImageView
+        android:id="@+id/ivProfileOther"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/profile_other"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUser"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/ivProfileOther"
+        android:background="@drawable/message_incoming"
+        android:elevation="2dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:textSize="18sp"
+        tools:text="someone else's message" />
+</RelativeLayout>
