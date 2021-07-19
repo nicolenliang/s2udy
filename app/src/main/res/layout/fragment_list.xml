@@ -37,7 +37,7 @@
 
         <EditText
             android:id="@+id/etItem"
-            android:layout_width="299dp"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|start"
             android:layout_marginStart="10dp"
@@ -45,7 +45,8 @@
             android:background="#c3c3c3"
             android:ems="10"
             android:hint="add an item!"
-            android:inputType="none"
+            android:inputType="text"
+            android:paddingTop="10dp"
             android:paddingBottom="20dp" />
 
         <Button
