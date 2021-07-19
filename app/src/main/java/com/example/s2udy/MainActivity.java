@@ -2,6 +2,7 @@ package com.example.s2udy;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity
 {
+    Toolbar toolbar;
     Button btnRooms;
 
     @Override
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
 
         btnRooms = findViewById(R.id.btnRooms);
         btnRooms.setOnClickListener(new View.OnClickListener()

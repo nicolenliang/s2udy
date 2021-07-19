@@ -7,11 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".RoomsActivity">
 
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="650dp"
-        android:layout_alignParentBottom="true">
+        android:layout_below="@+id/tvTitle"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRooms"
@@ -26,9 +33,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="75dp"
         android:text="JOIN ROOMS"
         android:textSize="34sp" />
 
@@ -38,10 +44,9 @@
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="77dp"
         android:layout_marginEnd="20dp"
         android:background="@null"
-        android:cropToPadding="true"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_baseline_add_circle_outline" />
 
