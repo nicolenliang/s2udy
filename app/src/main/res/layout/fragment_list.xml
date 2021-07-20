@@ -31,9 +31,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvList"
             android:layout_width="350dp"
-            android:layout_height="425dp"
+            android:layout_height="400dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="80dp" />
+            android:layout_marginTop="105dp" />
 
         <EditText
             android:id="@+id/etItem"
@@ -57,6 +57,16 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="115dp"
             android:text="add" />
+
+        <Button
+            android:id="@+id/btnClear"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="65dp"
+            android:text="clear" />
 
     </androidx.cardview.widget.CardView>
 

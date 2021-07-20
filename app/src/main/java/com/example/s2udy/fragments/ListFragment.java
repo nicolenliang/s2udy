@@ -27,6 +27,7 @@ import com.example.s2udy.adapters.ListAdapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ListFragment extends Fragment
     TextView tvTitle;
     EditText etItem;
     RecyclerView rvList;
-    Button btnAdd;
+    Button btnAdd, btnClear;
 
     public ListFragment() {}
 
@@ -63,6 +64,7 @@ public class ListFragment extends Fragment
         etItem = view.findViewById(R.id.etItem);
         rvList = view.findViewById(R.id.rvList);
         btnAdd = view.findViewById(R.id.btnAdd);
+        btnClear = view.findViewById(R.id.btnClear);
 
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         Animation bottomDown = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
@@ -131,6 +133,15 @@ public class ListFragment extends Fragment
                 saveItems();
             }
         });
+        btnClear.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                adapter.clear();
+                clearItems();
+            }
+        });
     }
 
     private File getDataFile()
@@ -162,5 +173,10 @@ public class ListFragment extends Fragment
         {
             Log.e(TAG, "error in saving list: ", e);
         }
+    }
+
+    private void clearItems()
+    {
+        FileUtils.deleteQuietly(getDataFile());
     }
 }
