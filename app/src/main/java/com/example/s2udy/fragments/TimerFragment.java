@@ -60,8 +60,11 @@ public class TimerFragment extends Fragment
         cvTimer.startAnimation(bottomUp);
 
         // manually set text in case user leaves activity and comes back
-        if (timerStarted)
+        if (timerStarted && timerRunning)
+        {
             btnStartPause.setText("pause");
+            btnReset.setVisibility(View.VISIBLE);
+        }
         else
             btnStartPause.setText("start");
 
