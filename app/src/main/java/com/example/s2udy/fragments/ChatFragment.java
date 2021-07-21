@@ -20,9 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.s2udy.InRoomActivity;
 import com.example.s2udy.R;
 import com.example.s2udy.adapters.ChatAdapter;
 import com.example.s2udy.models.Message;
+import com.example.s2udy.models.Room;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -40,20 +42,27 @@ public class ChatFragment extends Fragment implements View.OnClickListener
 {
     public static final String TAG = "ChatFragment";
     public static final String WEBSOCKET = "wss://s2udy.b4a.io";
+    Room room;
     CardView cvChat;
-    TextView tvTitle;
+    TextView tvTitle, tvDisabled;
     EditText etMessage;
     ImageButton ibSend;
     List<Message> messages;
     RecyclerView rvChat;
     ChatAdapter adapter;
 
-    public ChatFragment() {}
+    public ChatFragment(Room room)
+    {
+        this.room = room;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        if (!room.getChatEnabled())
+            return inflater.inflate(R.layout.fragment_chat_disabled, container, false);
+        else
+            return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
     @Override
@@ -63,6 +72,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
 
         cvChat = view.findViewById(R.id.cvChat);
         tvTitle = view.findViewById(R.id.tvTitle);
+        tvDisabled = view.findViewById(R.id.tvDisabled);
         etMessage = view.findViewById(R.id.etMessage);
         ibSend = view.findViewById(R.id.ibSend);
         ibSend.setOnClickListener(this);
@@ -71,6 +81,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener
         cvChat.startAnimation(bottomUp);
 
         messages = new ArrayList<>();
+        room.setMessages(messages);
+
         rvChat = view.findViewById(R.id.rvChat);
         adapter = new ChatAdapter(getContext(), messages, ParseUser.getCurrentUser());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
