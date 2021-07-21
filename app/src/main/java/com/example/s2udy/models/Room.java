@@ -17,6 +17,7 @@ public class Room extends ParseObject
     public static final String KEY_CHAT = "chatEnabled";
     public static final String KEY_MUSIC = "music";
     public static final String KEY_ZOOM = "zoom";
+    public static final String KEY_MESSAGES = "messages";
 
     public String getName() { return getString(KEY_NAME); }
     public void setName(String roomname) { put(KEY_NAME, roomname); }
@@ -41,4 +42,7 @@ public class Room extends ParseObject
 
     public String getZoom() { return getString(KEY_ZOOM); }
     public void setZoom(String zoom) { put(KEY_ZOOM, zoom); }
+
+    public List<Message> getMessages() { return getList(KEY_MESSAGES); }
+    public void setMessages(List<Message> messages) { put(KEY_MESSAGES, messages); }
 }
