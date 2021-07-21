@@ -18,6 +18,7 @@ import com.parse.SaveCallback;
 public class CreateActivity extends AppCompatActivity
 {
     public static final String TAG = "CreateActivity";
+    public static int capacity;
     EditText etName, etDescription, etCapacity, etMusic, etZoom;
     Switch switchChat;
     Button btnCreate;
@@ -49,7 +50,6 @@ public class CreateActivity extends AppCompatActivity
                 }
                 Boolean chat = switchChat.isChecked();
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                int capacity = 1000;
                 String capacityS = etCapacity.getText().toString();
                 String musicLink = etMusic.getText().toString();
                 String zoomLink = etZoom.getText().toString();;
@@ -82,7 +82,6 @@ public class CreateActivity extends AppCompatActivity
                     return;
                 }
                 Log.i(TAG, "room created successfully! capacity: " + room.getCapacity());
-                //etName.setText("");
                 finish();
             }
         });
