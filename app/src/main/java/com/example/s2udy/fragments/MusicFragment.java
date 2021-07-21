@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.s2udy.models.Room;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -41,6 +42,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener
     public static final String REDIRECT_URI = "http://com.example.s2udy/callback";
     private boolean started, playing;
     private SpotifyAppRemote spotifyAppRemote;
+    Room room;
     CardView cvMusic;
     TextView tvTitle, tvSong, tvArtist;
     ImageView ivAlbum;
@@ -48,8 +50,12 @@ public class MusicFragment extends Fragment implements View.OnClickListener
     EditText etSong;
     Button btnAdd;
     List<String> queue;
+    Track currTrack;
 
-    public MusicFragment() {}
+    public MusicFragment(Room room)
+    {
+        this.room = room;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -154,11 +160,13 @@ public class MusicFragment extends Fragment implements View.OnClickListener
                 .setRedirectUri(REDIRECT_URI)
                 .showAuthView(true) // auto shows authorization view if user hasn't approved scope
                 .build();
+        
         if (!SpotifyAppRemote.isSpotifyInstalled(getContext()))
         {
             Toast.makeText(getContext(), "you must have Spotify installed!", Toast.LENGTH_SHORT).show();
             return;
         }
+        
         SpotifyAppRemote.connect(getContext(), connectionParams, new Connector.ConnectionListener()
         {
             @Override
@@ -181,21 +189,26 @@ public class MusicFragment extends Fragment implements View.OnClickListener
     {
         if (!started)
         {
-            // TODO: replace with user input from creating room
-            spotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DWWBHeXOYZf74");
+            String userUri = parseUrl(room.getMusic());
+            if (!userUri.isEmpty())
+            {
+                Log.i(TAG, "starting URI: " + userUri);
+                spotifyAppRemote.getPlayerApi().play(userUri);
+            }
             ibPlayPause.setImageResource(R.drawable.ic_baseline_pause_circle_outline);
             started = true;
         }
+        
         Log.i(TAG, "subscribeToPlayerState about to start");
         spotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(playerState ->
         {
-            Track track = playerState.track;
-            if (track != null)
+            currTrack = playerState.track;
+            if (currTrack != null)
             {
-                Log.i(TAG, "song: " + track.name + "; artist: " + track.artist.name);
-                tvSong.setText(track.name);
-                tvArtist.setText(track.artist.name);
-                CallResult<Bitmap> albumResult = spotifyAppRemote.getImagesApi().getImage(track.imageUri);
+                Log.i(TAG, "song: " + currTrack.name + "; artist: " + currTrack.artist.name);
+                tvSong.setText(currTrack.name);
+                tvArtist.setText(currTrack.artist.name);
+                CallResult<Bitmap> albumResult = spotifyAppRemote.getImagesApi().getImage(currTrack.imageUri);
                 albumResult.setResultCallback(new CallResult.ResultCallback<Bitmap>()
                 {
                     @Override
@@ -219,10 +232,18 @@ public class MusicFragment extends Fragment implements View.OnClickListener
     private String parseUrl(String url)
     {
         String uri = "spotify:";
-        if (url.contains("track"))
-            uri += "track:";
-        else if (url.contains("album") || url.contains("playlist"))
-            Toast.makeText(getContext(), "link must be to a song!", Toast.LENGTH_SHORT).show();
+        if (!started) // album/playlist URL submissions in room creation
+        {
+            if (url.contains("track"))
+                uri += "track:";
+            else if (url.contains("album"))
+                uri += "album:";
+            else if (url.contains("playlist"))
+                uri += "playlist:";
+        }
+        else
+            if (url.contains("album") || url.contains("playlist"))
+                Toast.makeText(getContext(), "link must be to a song!", Toast.LENGTH_SHORT).show();
         uri += url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"));
         return uri;
     }
