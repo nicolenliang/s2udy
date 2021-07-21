@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.TimerFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvChat"
+        android:layout_width="match_parent"
+        android:layout_height="675dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="-50dp"
+        android:clickable="true"
+        app:cardBackgroundColor="#C3C3C3"
+        app:cardCornerRadius="50dp">
+
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:text="CHAT"
+            android:textSize="34sp" />
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="95dp"
+            android:background="#C3C3C3"
+            android:clickable="false"
+            android:ems="10"
+            android:hint="send a message!"
+            android:inputType="text"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp" />
+
+        <ImageButton
+            android:id="@+id/ibSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="115dp"
+            android:background="@null"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_send" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvDisabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="chat disabled by host :("
+            android:textSize="16sp" />
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
