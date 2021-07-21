@@ -57,9 +57,9 @@
         android:layout_below="@+id/etCapacity"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="music link?"
-        android:inputType="none" />
+        android:hint="spotify album/playlist link"
+        android:inputType="none"
+        android:maxLines="1" />
 
     <EditText
         android:id="@+id/etZoom"
@@ -69,7 +69,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="zoom link?"
+        android:hint="zoom link"
         android:inputType="text" />
 
     <Switch
