@@ -27,6 +27,102 @@
             android:layout_marginTop="30dp"
             android:text="MUSIC"
             android:textSize="34sp" />
+
+        <ImageView
+            android:id="@+id/ivAlbum"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="85dp"
+            android:background="#FFFFFF"
+            android:padding="3dp"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="43dp"
+            android:layout_marginBottom="255dp"
+            android:fontFamily="sans-serif-black"
+            tools:text="Nobody"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvArtist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="43dp"
+            android:layout_marginBottom="235dp"
+            android:fontFamily="sans-serif"
+            tools:text="Mitski"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/ibPlayPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="175dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_pause_circle_outline" />
+
+        <ImageButton
+            android:id="@+id/ibNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginStart="45dp"
+            android:layout_marginBottom="175dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_skip_next" />
+
+        <ImageButton
+            android:id="@+id/ibPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginEnd="125dp"
+            android:layout_marginBottom="175dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_skip_previous" />
+
+        <EditText
+            android:id="@+id/etSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="43dp"
+            android:layout_marginBottom="110dp"
+            android:ems="10"
+            android:hint="spotify track links only!"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="43dp"
+            android:layout_marginBottom="110dp"
+            android:includeFontPadding="false"
+            android:text="add"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/ibQueue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginStart="125dp"
+            android:layout_marginBottom="175dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_queue_music" />
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
