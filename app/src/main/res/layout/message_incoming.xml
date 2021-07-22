@@ -38,6 +38,6 @@
         android:elevation="2dp"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp"
-        android:textSize="18sp"
+        android:textSize="14sp"
         tools:text="someone else's message" />
 </RelativeLayout>

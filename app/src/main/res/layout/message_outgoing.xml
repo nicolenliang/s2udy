@@ -19,7 +19,7 @@
         android:elevation="2dp"
         android:padding="8dp"
         android:textColor="@android:color/white"
-        android:textSize="18dp"
+        android:textSize="14sp"
         tools:text="your message here" />
 
     <ImageView

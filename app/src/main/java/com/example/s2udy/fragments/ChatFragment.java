@@ -96,8 +96,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener
         { e.printStackTrace(); }
 
         ParseQuery<Message> query = ParseQuery.getQuery("Message");
-        query.whereNotEqualTo("user", ParseUser.getCurrentUser());
-
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(query);
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (newQuery, object) ->
         {
