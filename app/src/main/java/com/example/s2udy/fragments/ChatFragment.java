@@ -42,7 +42,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
 {
     public static final String TAG = "ChatFragment";
     public static final String WEBSOCKET = "wss://s2udy.b4a.io";
-    Room room;
+    public Room room;
     CardView cvChat;
     TextView tvTitle, tvDisabled;
     EditText etMessage;
@@ -81,8 +81,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener
         cvChat.startAnimation(bottomUp);
 
         messages = new ArrayList<>();
-        room.setMessages(messages);
-
         rvChat = view.findViewById(R.id.rvChat);
         adapter = new ChatAdapter(getContext(), messages, ParseUser.getCurrentUser());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -104,13 +102,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (newQuery, object) ->
         {
             messages.add(0, object);
+            Log.i(TAG, "subscriptionHandling thing");
 
             ((Activity)getContext()).runOnUiThread(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemInserted(0);
                     rvChat.smoothScrollToPosition(0);
                 }
             });
@@ -118,12 +117,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
+    // onClick send message button
     public void onClick(View v)
     {
         String body = etMessage.getText().toString();
         Message message = new Message();
         message.setUser(ParseUser.getCurrentUser());
         message.setBody(body);
+        message.setRoom(room);
         message.saveInBackground(new SaveCallback()
         {
             @Override
@@ -155,7 +156,12 @@ public class ChatFragment extends Fragment implements View.OnClickListener
                     Log.e(TAG, "issue in querying messages: ", e);
                     return;
                 }
-                messages.addAll(objects);
+                Log.i(TAG, "queryMessages success");
+                for (Message message : objects)
+                {
+                    if (!messages.contains(message) && message.getRoom().hasSameId(room))
+                        messages.add(message);
+                }
                 adapter.notifyDataSetChanged();
                 rvChat.smoothScrollToPosition(0);
             }
