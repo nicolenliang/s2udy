@@ -13,8 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,17 +32,14 @@ import org.parceler.Parcels;
 public class InRoomActivity extends AppCompatActivity implements View.OnClickListener
 {
     public static final String TAG = "InRoomActivity";
+    public Room room;
     Toolbar toolbar;
     RelativeLayout rlContainer;
-    TextView tvTitle, tvHost, tvDescription;
+    TextView tvTitle, tvHost, tvDescription, tvLink;
     CardView cvTimer, cvList, cvChat, cvMusic;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     BottomNavigationView bottomNavigation;
-    Fragment fragment;
-    Fragment timerFragment = new TimerFragment();
-    Fragment listFragment = new ListFragment();
-    Fragment chatFragment = new ChatFragment();
-    Fragment musicFragment = new MusicFragment();
+    Fragment fragment, timerFragment, listFragment, chatFragment, musicFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,16 +54,23 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         tvTitle = findViewById(R.id.tvTitle);
         tvHost = findViewById(R.id.tvHost);
         tvDescription = findViewById(R.id.tvDescription);
+        tvLink = findViewById(R.id.tvLink);
         cvTimer = findViewById(R.id.cvTimer);
         cvList = findViewById(R.id.cvList);
         cvChat = findViewById(R.id.cvChat);
         cvMusic = findViewById(R.id.cvMusic);
         bottomNavigation = findViewById(R.id.bottomNavigation);
 
-        Room room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
+        room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
         tvTitle.setText(room.getName());
         tvHost.setText(room.getHost().getUsername());
         tvDescription.setText(room.getDescription());
+        tvLink.setText(room.getZoom());
+
+        timerFragment = new TimerFragment(room);
+        listFragment = new ListFragment(room);
+        chatFragment = new ChatFragment(room);
+        musicFragment = new MusicFragment(room);
 
         cvTimer.setOnClickListener(this);
         cvList.setOnClickListener(this);
@@ -80,8 +82,8 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View v)
             {
-                fragmentManager.beginTransaction().remove(fragment).commit();
-                Animation bottomDown = AnimationUtils.loadAnimation(InRoomActivity.this, R.anim.bottom_down);
+                if (fragment != null)
+                    fragmentManager.beginTransaction().remove(fragment).commit();
                 // TODO: set animation for when we close fragment
             }
         });
