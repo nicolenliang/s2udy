@@ -141,7 +141,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
 
     private void queryMessages()
     {
-        ParseQuery<Message> query = ParseQuery.getQuery("Message");
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         query.setLimit(50);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Message>()
