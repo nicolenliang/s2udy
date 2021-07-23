@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,19 +21,26 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.s2udy.InRoomActivity;
 import com.example.s2udy.R;
 import com.example.s2udy.adapters.ListAdapter;
 import com.example.s2udy.models.ListItem;
 import com.example.s2udy.models.Room;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +73,7 @@ public class ListFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
         items = new ArrayList<>();
+        BottomNavigationView bottomNav = (BottomNavigationView) requireActivity().findViewById(R.id.bottomNavigation);
 
         cvList = view.findViewById(R.id.cvList);
         tvTitle = view.findViewById(R.id.tvTitle);
@@ -72,10 +81,41 @@ public class ListFragment extends Fragment
         rvList = view.findViewById(R.id.rvList);
         btnAdd = view.findViewById(R.id.btnAdd);
         btnClear = view.findViewById(R.id.btnClear);
+        RelativeLayout rlItem = view.findViewById(R.id.rlItem);
 
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         cvList.startAnimation(bottomUp);
 
+        // keyboard listener: if up, disappear navbar
+        KeyboardVisibilityEvent.setEventListener(requireActivity(), new KeyboardVisibilityEventListener()
+        {
+            @Override
+            public void onVisibilityChanged(boolean isOpen)
+            {
+                if (isOpen)
+                {
+                    bottomNav.setVisibility(View.GONE);
+                    ViewGroup.LayoutParams rvParams = rvList.getLayoutParams();
+                    rvParams.height = rvList.getHeight() - (int)(2.5 * rlItem.getHeight());
+                    rvList.setLayoutParams(rvParams);
+
+                    FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlItem.getLayoutParams();
+                    rlParams.setMargins(0, 0, 0, etItem.getHeight() + 10);
+                    rlItem.setLayoutParams(rlParams);
+                }
+                else
+                {
+                    bottomNav.setVisibility(View.VISIBLE);
+                    ViewGroup.LayoutParams rvParams = rvList.getLayoutParams();
+                    rvParams.height = rvList.getHeight() + (3 * rlItem.getHeight());
+                    rvList.setLayoutParams(rvParams);
+
+                    FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlItem.getLayoutParams();
+                    rlParams.setMargins(0, 0, 0, etItem.getHeight() + bottomNav.getHeight() + 10);
+                    rlItem.setLayoutParams(rlParams);
+                }
+            }
+        });
         // editing/deleting items from list
         ListAdapter.onLongClickListener longClickListener = new ListAdapter.onLongClickListener()
         {

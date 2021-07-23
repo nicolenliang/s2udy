@@ -41,30 +41,36 @@
 
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_width="340dp"
+        <RelativeLayout
+            android:id="@+id/rlMessage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="100dp"
-            android:background="#C3C3C3"
-            android:ems="10"
-            android:hint="send a message!"
-            android:inputType="text"
-            android:paddingTop="10dp"
-            android:paddingBottom="20dp" />
+            android:layout_marginBottom="105dp"
+            android:background="#C3C3C3">
 
-        <ImageButton
-            android:id="@+id/ibSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="110dp"
-            android:background="#C3C3C3"
-            android:padding="10dp"
-            android:src="@drawable/ic_baseline_send" />
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:ems="10"
+                android:hint="send a message!"
+                android:inputType="text" />
+
+            <ImageButton
+                android:id="@+id/ibSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/etMessage"
+                android:background="@null"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_send" />
+        </RelativeLayout>
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

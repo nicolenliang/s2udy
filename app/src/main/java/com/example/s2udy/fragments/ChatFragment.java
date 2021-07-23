@@ -17,7 +17,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.s2udy.InRoomActivity;
@@ -25,6 +27,7 @@ import com.example.s2udy.R;
 import com.example.s2udy.adapters.ChatAdapter;
 import com.example.s2udy.models.Message;
 import com.example.s2udy.models.Room;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -32,6 +35,9 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.livequery.ParseLiveQueryClient;
 import com.parse.livequery.SubscriptionHandling;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -69,6 +75,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        BottomNavigationView bottomNav = (BottomNavigationView) requireActivity().findViewById(R.id.bottomNavigation);
 
         cvChat = view.findViewById(R.id.cvChat);
         tvTitle = view.findViewById(R.id.tvTitle);
@@ -76,6 +83,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
         etMessage = view.findViewById(R.id.etMessage);
         ibSend = view.findViewById(R.id.ibSend);
         ibSend.setOnClickListener(this);
+        RelativeLayout rlMessage = view.findViewById(R.id.rlMessage);
 
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         cvChat.startAnimation(bottomUp);
@@ -111,6 +119,37 @@ public class ChatFragment extends Fragment implements View.OnClickListener
                     rvChat.smoothScrollToPosition(0);
                 }
             });
+        });
+
+        // keyboard listener: if up, disappear navbar
+        KeyboardVisibilityEvent.setEventListener(requireActivity(), new KeyboardVisibilityEventListener()
+        {
+            @Override
+            public void onVisibilityChanged(boolean isOpen)
+            {
+                if (isOpen)
+                {
+                    bottomNav.setVisibility(View.GONE);
+                    ViewGroup.LayoutParams rvParams = rvChat.getLayoutParams();
+                    rvParams.height = rvChat.getHeight() - (2 * rlMessage.getHeight());
+                    rvChat.setLayoutParams(rvParams);
+
+                    FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlMessage.getLayoutParams();
+                    rlParams.setMargins(0, 0, 0, etMessage.getHeight() + 10);
+                    rlMessage.setLayoutParams(rlParams);
+                }
+                if (!isOpen)
+                {
+                    bottomNav.setVisibility(View.VISIBLE);
+                    ViewGroup.LayoutParams rvParams = rvChat.getLayoutParams();
+                    rvParams.height = rvChat.getHeight() + (3 * rlMessage.getHeight());
+                    rvChat.setLayoutParams(rvParams);
+
+                    FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlMessage.getLayoutParams();
+                    rlParams.setMargins(0, 0, 0, etMessage.getHeight() + bottomNav.getHeight() + 10);
+                    rlMessage.setLayoutParams(rlParams);
+                }
+            }
         });
     }
 

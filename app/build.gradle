@@ -51,4 +51,5 @@ dependencies {
     implementation 'com.github.parse-community:ParseLiveQuery-Android:1.1.0' // for Parse Live Queries
     implementation files('../libs/spotify-app-remote-release-0.7.2.aar')
     implementation "com.google.code.gson:gson:2.8.5"
+    compile 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
 }

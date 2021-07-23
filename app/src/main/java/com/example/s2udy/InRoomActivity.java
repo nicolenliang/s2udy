@@ -38,7 +38,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     TextView tvTitle, tvHost, tvDescription, tvLink;
     CardView cvTimer, cvList, cvChat, cvMusic;
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    BottomNavigationView bottomNavigation;
+    public BottomNavigationView bottomNavigation;
     Fragment fragment, timerFragment, listFragment, chatFragment, musicFragment;
 
     @Override
