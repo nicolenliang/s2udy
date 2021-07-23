@@ -24,20 +24,21 @@ import android.widget.Toast;
 
 import com.example.s2udy.R;
 import com.example.s2udy.adapters.ListAdapter;
+import com.example.s2udy.models.ListItem;
+import com.example.s2udy.models.Room;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.io.FileUtils;
 
 public class ListFragment extends Fragment
 {
     public static final String TAG = "ListFragment";
-    List<String> items;
+    Room room;
+    List<ListItem> items;
     ListAdapter adapter;
     CardView cvList;
     TextView tvTitle;
@@ -45,7 +46,10 @@ public class ListFragment extends Fragment
     RecyclerView rvList;
     Button btnAdd, btnClear;
 
-    public ListFragment() {}
+    public ListFragment(Room room)
+    {
+        this.room = room;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -67,10 +71,7 @@ public class ListFragment extends Fragment
         btnClear = view.findViewById(R.id.btnClear);
 
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
-        Animation bottomDown = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
         cvList.startAnimation(bottomUp);
-
-        loadItems();
 
         ListAdapter.onLongClickListener longClickListener = new ListAdapter.onLongClickListener()
         {
@@ -79,7 +80,7 @@ public class ListFragment extends Fragment
             {
                 View editDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_list, null);
                 EditText etItem = editDialog.findViewById(R.id.etItem);
-                etItem.setText(items.get(position));
+                etItem.setText(items.get(position).getBody());
 
                 AlertDialog dialog = new AlertDialog.Builder(getContext())
                         .setTitle("edit item")
@@ -89,12 +90,10 @@ public class ListFragment extends Fragment
                             @Override
                             public void onClick(DialogInterface dialog, int which)
                             {
-                                Log.i(TAG,"old item: " + items.get(position));
-                                items.remove(position);
-                                items.add(position, etItem.getText().toString());
+                                Log.i(TAG,"old item: " + items.get(position).getBody());
+                                items.get(position).setBody(etItem.getText().toString());
                                 adapter.notifyDataSetChanged();
-                                saveItems();
-                                Log.i(TAG, "new item: " + items.get(position));
+                                Log.i(TAG, "new item: " + items.get(position).getBody());
                             }
                         })
                         .setNegativeButton("delete", new DialogInterface.OnClickListener()
@@ -104,7 +103,6 @@ public class ListFragment extends Fragment
                             {
                                 items.remove(position);
                                 adapter.notifyItemRemoved(position);
-                                saveItems();
                             }
                         })
                         .create();
@@ -115,22 +113,22 @@ public class ListFragment extends Fragment
         adapter = new ListAdapter(getContext(), items, longClickListener);
         rvList.setAdapter(adapter);
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
+        loadItems();
 
         btnAdd.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                String item = etItem.getText().toString();
-                if (item.isEmpty())
+                String body = etItem.getText().toString();
+                if (body.isEmpty())
                 {
                     Toast.makeText(getContext(), "cannot add empty item!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                items.add(item);
-                adapter.notifyItemInserted(items.size() - 1);
-                etItem.setText("");
-                saveItems();
+                ListItem newItem = new ListItem();
+                saveItem(newItem);
+                adapter.notifyItemInserted(0);
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener()
@@ -138,45 +136,57 @@ public class ListFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                adapter.clear();
                 clearItems();
             }
         });
     }
 
-    private File getDataFile()
+    private void saveItem(ListItem newItem)
     {
-        // requireContext() used rather than getContext() bc it is a fragment; context may be null
-        return new File(requireContext().getFilesDir(), "list.txt");
+        String body = etItem.getText().toString();
+        newItem.setBody(body);
+        newItem.setRoom(room);
+        newItem.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "saveItem() error in saving: ", e);
+                    return;
+                }
+                Log.i(TAG, "saveItem() successful");
+            }
+        });
+        etItem.setText("");
     }
 
     private void loadItems()
     {
-        try
+        ParseQuery<ListItem> query = ParseQuery.getQuery(ListItem.class);
+        query.findInBackground(new FindCallback<ListItem>()
         {
-            items = new ArrayList<>(FileUtils.readLines(getDataFile(), Charset.defaultCharset()));
-        }
-        catch (IOException e)
-        {
-            Log.e(TAG, "error in loading list: ", e);
-            items = new ArrayList<>();
-        }
-    }
-
-    private void saveItems()
-    {
-        try
-        {
-            FileUtils.writeLines(getDataFile(), items);
-        }
-        catch (IOException e)
-        {
-            Log.e(TAG, "error in saving list: ", e);
-        }
+            @Override
+            public void done(List<ListItem> objects, ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "loadItems() done error: ", e);
+                    return;
+                }
+                for (ListItem item : objects)
+                {
+                    if (!items.contains(item) && item.getRoom().hasSameId(room))
+                        items.add(item);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void clearItems()
     {
-        FileUtils.deleteQuietly(getDataFile());
+        adapter.clear();
     }
 }

@@ -10,13 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s2udy.R;
+import com.example.s2udy.models.ListItem;
 
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter
 {
     Context context;
-    List<String> items;
+    List<ListItem> items;
     onLongClickListener longClickListener;
 
     public interface onLongClickListener
@@ -24,7 +25,7 @@ public class ListAdapter extends RecyclerView.Adapter
         void onItemLongClicked(int position);
     }
 
-    public ListAdapter(Context context, List<String> items, onLongClickListener longClickListener)
+    public ListAdapter(Context context, List<ListItem> items, onLongClickListener longClickListener)
     {
         this.context = context;
         this.items = items;
@@ -42,7 +43,7 @@ public class ListAdapter extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position)
     {
-        String item = items.get(position);
+        ListItem item = items.get(position);
         ((ViewHolder)holder).bind(item);
     }
 
@@ -68,9 +69,9 @@ public class ListAdapter extends RecyclerView.Adapter
             cbItem = itemView.findViewById(R.id.cbItem);
         }
 
-        public void bind(String item)
+        public void bind(ListItem item)
         {
-            cbItem.setText(item);
+            cbItem.setText(item.getBody());
             cbItem.setOnLongClickListener(new View.OnLongClickListener()
             {
                 @Override
