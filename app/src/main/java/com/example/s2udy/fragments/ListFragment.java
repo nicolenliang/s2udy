@@ -42,7 +42,7 @@ public class ListFragment extends Fragment
     ListAdapter adapter;
     CardView cvList;
     TextView tvTitle;
-    EditText etItem;
+    EditText etItem, etEdit;
     RecyclerView rvList;
     Button btnAdd, btnClear;
 
@@ -79,8 +79,8 @@ public class ListFragment extends Fragment
             public void onItemLongClicked(int position)
             {
                 View editDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_list, null);
-                EditText etItem = editDialog.findViewById(R.id.etItem);
-                etItem.setText(items.get(position).getBody());
+                etEdit = editDialog.findViewById(R.id.etItem);
+                etEdit.setText(items.get(position).getBody());
 
                 AlertDialog dialog = new AlertDialog.Builder(getContext())
                         .setTitle("edit item")
@@ -91,8 +91,9 @@ public class ListFragment extends Fragment
                             public void onClick(DialogInterface dialog, int which)
                             {
                                 Log.i(TAG,"old item: " + items.get(position).getBody());
-                                items.get(position).setBody(etItem.getText().toString());
-                                adapter.notifyDataSetChanged();
+                                String newBody = etEdit.getText().toString();
+                                ListItem editItem = items.get(position);
+                                editItem(editItem, newBody);
                                 Log.i(TAG, "new item: " + items.get(position).getBody());
                             }
                         })
@@ -141,27 +142,6 @@ public class ListFragment extends Fragment
         });
     }
 
-    private void saveItem(ListItem newItem)
-    {
-        String body = etItem.getText().toString();
-        newItem.setBody(body);
-        newItem.setRoom(room);
-        newItem.saveInBackground(new SaveCallback()
-        {
-            @Override
-            public void done(ParseException e)
-            {
-                if (e != null)
-                {
-                    Log.e(TAG, "saveItem() error in saving: ", e);
-                    return;
-                }
-                Log.i(TAG, "saveItem() successful");
-            }
-        });
-        etItem.setText("");
-    }
-
     private void loadItems()
     {
         ParseQuery<ListItem> query = ParseQuery.getQuery(ListItem.class);
@@ -183,6 +163,47 @@ public class ListFragment extends Fragment
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void saveItem(ListItem newItem)
+    {
+        String body = etItem.getText().toString();
+        newItem.setBody(body);
+        newItem.setRoom(room);
+        newItem.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "saveItem() error in saving: ", e);
+                    return;
+                }
+                Log.i(TAG, "saveItem() successful");
+            }
+        });
+        etItem.setText("");
+    }
+
+    private void editItem(ListItem editItem, String newBody)
+    {
+        editItem.setBody(newBody);
+        editItem.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "editItem() error in saving: ", e);
+                    return;
+                }
+                Log.i(TAG, "editItem() successful");
+                adapter.notifyDataSetChanged();
+            }
+        });
+        etEdit.setText("");
     }
 
     private void clearItems()
