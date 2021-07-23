@@ -2,6 +2,7 @@ package com.example.s2udy;
 
 import android.app.Application;
 
+import com.example.s2udy.models.ListItem;
 import com.example.s2udy.models.Message;
 import com.example.s2udy.models.Room;
 import com.parse.Parse;
@@ -16,6 +17,7 @@ public class ParseApplication extends Application
 
         ParseObject.registerSubclass(Room.class);
         ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(ListItem.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("Jz6QWqjeiMYLgrUYOux9cWbtU18ayvDJXlNUlBtL")
