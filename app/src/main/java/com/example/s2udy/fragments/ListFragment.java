@@ -118,11 +118,11 @@ public class ListFragment extends Fragment
         ListAdapter.onCheckedChangeListener checkedChangeListener = new ListAdapter.onCheckedChangeListener()
         {
             @Override
-            public void onItemCheckedChange(int position, CheckBox item)
+            public void onItemCheckedChange(int position)
             {
                 ListItem checkItem = items.get(position);
                 Log.i(TAG, "clicked position " + position + "; checkItem: " + checkItem.getDone().toString());
-                updateCheck(checkItem, item);
+                updateCheck(checkItem);
             }
         };
 
@@ -273,7 +273,7 @@ public class ListFragment extends Fragment
         });
     }
 
-    private void updateCheck(ListItem checkItem, CheckBox cbItem)
+    private void updateCheck(ListItem checkItem)
     {
         boolean done = checkItem.getDone();
         checkItem.setDone(!done);

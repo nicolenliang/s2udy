@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,17 +20,24 @@ public class ListAdapter extends RecyclerView.Adapter
     Context context;
     List<ListItem> items;
     onLongClickListener longClickListener;
+    onCheckedChangeListener checkedChangeListener;
 
     public interface onLongClickListener
     {
         void onItemLongClicked(int position);
     }
 
-    public ListAdapter(Context context, List<ListItem> items, onLongClickListener longClickListener)
+    public interface onCheckedChangeListener
+    {
+        void onItemCheckedChange(int position);
+    }
+
+    public ListAdapter(Context context, List<ListItem> items, onLongClickListener longClickListener, onCheckedChangeListener checkedChangeListener)
     {
         this.context = context;
         this.items = items;
         this.longClickListener = longClickListener;
+        this.checkedChangeListener = checkedChangeListener;
     }
 
     @NonNull
@@ -72,6 +80,8 @@ public class ListAdapter extends RecyclerView.Adapter
         public void bind(ListItem item)
         {
             cbItem.setText(item.getBody());
+            cbItem.setChecked(item.getDone());
+
             cbItem.setOnLongClickListener(new View.OnLongClickListener()
             {
                 @Override
@@ -79,6 +89,14 @@ public class ListAdapter extends RecyclerView.Adapter
                 {
                     longClickListener.onItemLongClicked(getAdapterPosition());
                     return true;
+                }
+            });
+            cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+            {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                {
+                    checkedChangeListener.onItemCheckedChange(getAdapterPosition());
                 }
             });
         }
