@@ -29,32 +29,37 @@
             android:text="CHAT"
             android:textSize="34sp" />
 
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_width="343dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="95dp"
-            android:background="#C3C3C3"
-            android:clickable="false"
-            android:ems="10"
-            android:hint="send a message!"
-            android:inputType="text"
-            android:paddingTop="10dp"
-            android:paddingBottom="20dp" />
+            android:layout_marginBottom="105dp"
+            android:background="#C3C3C3">
 
-        <ImageButton
-            android:id="@+id/ibSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="115dp"
-            android:background="@null"
-            android:padding="5dp"
-            android:src="@drawable/ic_baseline_send" />
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:clickable="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="chat disabled!"
+                android:inputType="none" />
+
+            <ImageButton
+                android:id="@+id/ibSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/etMessage"
+                android:background="@null"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_send" />
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChat"
