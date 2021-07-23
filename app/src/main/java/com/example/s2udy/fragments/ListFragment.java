@@ -29,6 +29,7 @@ import com.example.s2udy.models.ListItem;
 import com.example.s2udy.models.Room;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
@@ -105,7 +106,7 @@ public class ListFragment extends Fragment
                             @Override
                             public void onClick(DialogInterface dialog, int which)
                             {
-                                items.remove(position);
+                                deleteItem(items.get(position));
                                 adapter.notifyItemRemoved(position);
                             }
                         })
@@ -221,6 +222,23 @@ public class ListFragment extends Fragment
         etEdit.setText("");
     }
 
+    private void deleteItem(ListItem delItem)
+    {
+        ParseQuery<ListItem> query = ParseQuery.getQuery(ListItem.class);
+        query.getInBackground(delItem.getObjectId(), new GetCallback<ListItem>()
+        {
+            @Override
+            public void done(ListItem object, ParseException e)
+            {
+                if (e != null)
+                    return;
+                object.deleteInBackground();
+                Log.i(TAG, "deleteItem() successful");
+            }
+        });
+        items.remove(delItem);
+    }
+
     private void clearItems()
     {
         adapter.clear();
@@ -270,7 +288,6 @@ public class ListFragment extends Fragment
                     return;
                 }
                 Log.i(TAG, "updateCheck() successful");
-                cbItem.setChecked(checkItem.getDone());
                 adapter.notifyDataSetChanged();
             }
         });
