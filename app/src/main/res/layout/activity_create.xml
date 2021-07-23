@@ -57,9 +57,12 @@
         android:layout_below="@+id/etCapacity"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:hint="spotify album/playlist link"
+        android:ems="10"
+        android:hint="spotify link*"
         android:inputType="none"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/etZoom"
@@ -86,9 +89,18 @@
         android:id="@+id/btnCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/switchChat"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="138dp"
+        android:layout_marginTop="120dp"
         android:text="create" />
+
+    <TextView
+        android:id="@+id/tvRequired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnCreate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="*required fields" />
 
 </RelativeLayout>

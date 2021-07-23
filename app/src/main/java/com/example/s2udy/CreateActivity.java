@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.s2udy.models.Room;
@@ -26,6 +27,8 @@ public class CreateActivity extends AppCompatActivity
     Switch switchChat;
     Button btnCreate;
 
+    TextView tvRequired;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,6 +42,7 @@ public class CreateActivity extends AppCompatActivity
         etZoom = findViewById(R.id.etZoom);
         switchChat = findViewById(R.id.switchChat);
         btnCreate = findViewById(R.id.btnCreate);
+        tvRequired = findViewById(R.id.tvRequired);
         btnCreate.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -46,7 +50,8 @@ public class CreateActivity extends AppCompatActivity
             {
                 String name = etName.getText().toString();
                 String description = etDescription.getText().toString();
-                if (name.isEmpty() || description.isEmpty())
+                String spotify = etMusic.getText().toString();
+                if (name.isEmpty() || description.isEmpty() || spotify.isEmpty())
                 {
                     Toast.makeText(CreateActivity.this, "required fields cannot be empty!", Toast.LENGTH_SHORT).show();
                     return;
