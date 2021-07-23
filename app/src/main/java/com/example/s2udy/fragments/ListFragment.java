@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.example.s2udy.R;
 import com.example.s2udy.adapters.ListAdapter;
 import com.example.s2udy.models.ListItem;
 import com.example.s2udy.models.Room;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -73,6 +75,7 @@ public class ListFragment extends Fragment
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         cvList.startAnimation(bottomUp);
 
+        // editing/deleting items from list
         ListAdapter.onLongClickListener longClickListener = new ListAdapter.onLongClickListener()
         {
             @Override
@@ -110,8 +113,19 @@ public class ListFragment extends Fragment
                 dialog.show();
             }
         };
+        // checking off items on list
+        ListAdapter.onCheckedChangeListener checkedChangeListener = new ListAdapter.onCheckedChangeListener()
+        {
+            @Override
+            public void onItemCheckedChange(int position, CheckBox item)
+            {
+                ListItem checkItem = items.get(position);
+                Log.i(TAG, "clicked position " + position + "; checkItem: " + checkItem.getDone().toString());
+                updateCheck(checkItem, item);
+            }
+        };
 
-        adapter = new ListAdapter(getContext(), items, longClickListener);
+        adapter = new ListAdapter(getContext(), items, longClickListener, checkedChangeListener);
         rvList.setAdapter(adapter);
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         loadItems();
@@ -129,7 +143,6 @@ public class ListFragment extends Fragment
                 }
                 ListItem newItem = new ListItem();
                 saveItem(newItem);
-                adapter.notifyItemInserted(0);
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener()
@@ -180,6 +193,8 @@ public class ListFragment extends Fragment
                     Log.e(TAG, "saveItem() error in saving: ", e);
                     return;
                 }
+                items.add(newItem);
+                adapter.notifyItemInserted(items.size() - 1);
                 Log.i(TAG, "saveItem() successful");
             }
         });
@@ -209,5 +224,55 @@ public class ListFragment extends Fragment
     private void clearItems()
     {
         adapter.clear();
+        ParseQuery<ListItem> query = ParseQuery.getQuery(ListItem.class);
+        query.findInBackground(new FindCallback<ListItem>()
+        {
+            @Override
+            public void done(List<ListItem> objects, ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "clearItems() error in fetching: ", e);
+                    return;
+                }
+                for (ListItem item : objects)
+                {
+                    if (item.getRoom().hasSameId(room))
+                    {
+                        item.deleteInBackground(new DeleteCallback()
+                        {
+                            @Override
+                            public void done(ParseException e)
+                            {
+                                if (e != null)
+                                    return;
+                                Log.i(TAG, "clearItems() delete successful");
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private void updateCheck(ListItem checkItem, CheckBox cbItem)
+    {
+        boolean done = checkItem.getDone();
+        checkItem.setDone(!done);
+        checkItem.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "updateCheck() error in saving: ", e);
+                    return;
+                }
+                Log.i(TAG, "updateCheck() successful");
+                cbItem.setChecked(checkItem.getDone());
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }
