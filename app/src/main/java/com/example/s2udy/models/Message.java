@@ -1,7 +1,6 @@
 package com.example.s2udy.models;
 
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
