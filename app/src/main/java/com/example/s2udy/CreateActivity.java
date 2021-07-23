@@ -2,6 +2,7 @@ package com.example.s2udy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.example.s2udy.models.Room;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 public class CreateActivity extends AppCompatActivity
 {
@@ -56,12 +59,15 @@ public class CreateActivity extends AppCompatActivity
                 if (!capacityS.isEmpty())
                     capacity = Integer.parseInt(capacityS);
 
-                createRoom(name, description, chat, currentUser, capacity, musicLink, zoomLink);
+                Room room = createRoom(name, description, chat, currentUser, capacity, musicLink, zoomLink);
+                Intent i = new Intent(CreateActivity.this, InRoomActivity.class);
+                i.putExtra(Room.class.getSimpleName(), Parcels.wrap(room));
+                startActivity(i);
             }
         });
     }
 
-    private void createRoom(String name, String description, Boolean chat, ParseUser currentUser, int capacity, String musicLink, String zoomLink)
+    private Room createRoom(String name, String description, Boolean chat, ParseUser currentUser, int capacity, String musicLink, String zoomLink)
     {
         Room room = new Room();
         room.setName(name);
@@ -85,5 +91,6 @@ public class CreateActivity extends AppCompatActivity
                 finish();
             }
         });
+        return room;
     }
 }
