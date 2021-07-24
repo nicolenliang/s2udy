@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.s2udy.R;
+import com.example.s2udy.models.Room;
 
 import java.util.Locale;
 
@@ -28,15 +29,17 @@ public class TimerFragment extends Fragment
     private long startTimeInMillis;
     private long timeLeftInMillis;
     private boolean timerRunning, timerStarted;
-
+    Room room;
     CountDownTimer cdTimer;
-
     CardView cvTimer;
     EditText etTimer;
     TextView tvTitle, tvTimer;
     Button btnStartPause, btnReset;
 
-    public TimerFragment() {}
+    public TimerFragment(Room room)
+    {
+        this.room = room;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
