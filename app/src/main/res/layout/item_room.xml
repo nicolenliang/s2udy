@@ -19,14 +19,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp">
 
             <TextView
                 android:id="@+id/tvRoomName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="ROOM NAME"
                 android:textSize="24sp" />
 
@@ -36,7 +36,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvRoomName"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="-5dp"
                 android:textSize="14sp"
                 tools:text="host: bobert" />
@@ -47,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvHost"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:textSize="12sp"
                 tools:text="chat: enabled" />
@@ -57,7 +55,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvChatEnable"
-                android:layout_marginStart="10dp"
                 android:text="description ~~~~~"
                 android:textSize="12sp" />
 
