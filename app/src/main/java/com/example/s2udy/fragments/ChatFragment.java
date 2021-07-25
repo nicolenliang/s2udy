@@ -138,11 +138,11 @@ public class ChatFragment extends Fragment implements View.OnClickListener
                     rlParams.setMargins(0, 0, 0, etMessage.getHeight() + 10);
                     rlMessage.setLayoutParams(rlParams);
                 }
-                if (!isOpen)
+                else
                 {
                     bottomNav.setVisibility(View.VISIBLE);
                     ViewGroup.LayoutParams rvParams = rvChat.getLayoutParams();
-                    rvParams.height = rvChat.getHeight() + (3 * rlMessage.getHeight());
+                    rvParams.height = rvChat.getHeight() + (int)(2.5 * rlMessage.getHeight());
                     rvChat.setLayoutParams(rvParams);
 
                     FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlMessage.getLayoutParams();
