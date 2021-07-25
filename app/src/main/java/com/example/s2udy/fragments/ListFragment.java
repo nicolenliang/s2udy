@@ -96,18 +96,18 @@ public class ListFragment extends Fragment
                 {
                     bottomNav.setVisibility(View.GONE);
                     ViewGroup.LayoutParams rvParams = rvList.getLayoutParams();
-                    rvParams.height = rvList.getHeight() - (int)(2.5 * rlItem.getHeight());
+                    rvParams.height = rvList.getHeight() - (3 * etItem.getHeight());
                     rvList.setLayoutParams(rvParams);
 
                     FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlItem.getLayoutParams();
                     rlParams.setMargins(0, 0, 0, etItem.getHeight() + 10);
                     rlItem.setLayoutParams(rlParams);
                 }
-                else
+                else // keyboard back down
                 {
                     bottomNav.setVisibility(View.VISIBLE);
                     ViewGroup.LayoutParams rvParams = rvList.getLayoutParams();
-                    rvParams.height = rvList.getHeight() + (3 * rlItem.getHeight());
+                    rvParams.height = rvList.getHeight() + (3 * etItem.getHeight());
                     rvList.setLayoutParams(rvParams);
 
                     FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlItem.getLayoutParams();
@@ -184,6 +184,7 @@ public class ListFragment extends Fragment
                 }
                 ListItem newItem = new ListItem();
                 saveItem(newItem);
+                rvList.smoothScrollToPosition(items.size() - 1);
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener()
@@ -328,7 +329,6 @@ public class ListFragment extends Fragment
                     return;
                 }
                 Log.i(TAG, "updateCheck() successful");
-                adapter.notifyDataSetChanged();
             }
         });
     }
