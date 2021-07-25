@@ -57,7 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        app:menu="@menu/menu_bottom_navigation" />
+        app:menu="@menu/menu_bottom_navigation" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="wrap_content"
@@ -168,10 +170,25 @@
                     android:layout_marginTop="10dp"
                     android:text="MUSIC"
                     android:textSize="24sp" />
-
             </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
+
     </androidx.gridlayout.widget.GridLayout>
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="150dp" />
 
 </RelativeLayout>
