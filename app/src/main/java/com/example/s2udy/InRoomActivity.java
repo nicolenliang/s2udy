@@ -4,8 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,17 +16,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.s2udy.fragments.ChatFragment;
-import com.example.s2udy.fragments.ListFragment;
-import com.example.s2udy.fragments.MusicFragment;
-import com.example.s2udy.fragments.TimerFragment;
+import com.example.s2udy.adapters.PageAdapter;
 import com.example.s2udy.models.Room;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
+
+import me.relex.circleindicator.CircleIndicator3;
 
 public class InRoomActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -37,9 +36,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     RelativeLayout rlContainer;
     TextView tvTitle, tvHost, tvDescription, tvLink;
     CardView cvTimer, cvList, cvChat, cvMusic;
-    final FragmentManager fragmentManager = getSupportFragmentManager();
-    public BottomNavigationView bottomNavigation;
-    Fragment fragment, timerFragment, listFragment, chatFragment, musicFragment;
+    ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,7 +56,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         cvList = findViewById(R.id.cvList);
         cvChat = findViewById(R.id.cvChat);
         cvMusic = findViewById(R.id.cvMusic);
-        bottomNavigation = findViewById(R.id.bottomNavigation);
+        viewPager = findViewById(R.id.viewPager);
 
         room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
         tvTitle.setText(room.getName());
@@ -67,10 +64,53 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         tvDescription.setText(room.getDescription());
         tvLink.setText(room.getZoom());
 
-        timerFragment = new TimerFragment(room);
-        listFragment = new ListFragment(room);
-        chatFragment = new ChatFragment(room);
-        musicFragment = new MusicFragment(room);
+        PageAdapter pAdapter = new PageAdapter(InRoomActivity.this, room);
+        viewPager.setAdapter(pAdapter);
+        viewPager.setVisibility(View.GONE);
+        CircleIndicator3 indicator = findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        new TabLayoutMediator(tabLayout, viewPager, (TabLayoutMediator.TabConfigurationStrategy) (tab, position) ->
+        {
+            switch (position)
+            {
+                case 0:
+                    tab.setIcon(R.drawable.ic_baseline_chat_bubble);
+                    break;
+                case 1:
+                    tab.setIcon(R.drawable.ic_baseline_timer);
+                    break;
+                case 2:
+                    tab.setIcon(R.drawable.ic_baseline_format_list_bulleted);
+                    break;
+                case 3:
+                    tab.setIcon(R.drawable.ic_baseline_music_note);
+                    break;
+            }
+        }).attach();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
+        {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab)
+            {
+                viewPager.setVisibility(View.VISIBLE);
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab)
+            {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab)
+            {
+                if (viewPager.getVisibility() == View.VISIBLE)
+                    viewPager.setVisibility(View.GONE);
+                else
+                    viewPager.setVisibility(View.VISIBLE);
+            }
+        });
 
         cvTimer.setOnClickListener(this);
         cvList.setOnClickListener(this);
@@ -82,36 +122,8 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View v)
             {
-                if (fragment != null)
-                    fragmentManager.beginTransaction().remove(fragment).commit();
-                // TODO: set animation for when we close fragment
-            }
-        });
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
-                switch(item.getItemId())
-                {
-                    case R.id.action_timer:
-                        fragment = timerFragment;
-                        break;
-                    case R.id.action_list:
-                        fragment = listFragment;
-                        break;
-                    case R.id.action_chat:
-                        fragment = chatFragment;
-                        break;
-                    case R.id.action_music:
-                        fragment = musicFragment;
-                        break;
-                }
-                if (fragment.isVisible())
-                    fragmentManager.beginTransaction().remove(fragment).commit();
-                else
-                    fragmentManager.beginTransaction().replace(R.id.rlContainer, fragment).commit();
-                return true;
+                if (viewPager.getVisibility() == View.VISIBLE)
+                    viewPager.setVisibility(View.GONE);
             }
         });
     }
@@ -119,30 +131,27 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v)
     {
+        viewPager.setVisibility(View.VISIBLE);
+
         switch(v.getId())
         {
+            case R.id.cvChat:
+                Log.i(TAG, "onClick cvChat");
+                viewPager.setCurrentItem(0);
+                break;
             case R.id.cvTimer:
                 Log.i(TAG, "onClick cvTimer");
-                fragment = timerFragment;
-                bottomNavigation.setSelectedItemId(R.id.action_timer);
+                viewPager.setCurrentItem(1);
                 break;
             case R.id.cvList:
                 Log.i(TAG, "onClick cvList");
-                fragment = listFragment;
-                bottomNavigation.setSelectedItemId(R.id.action_list);
-                break;
-            case R.id.cvChat:
-                Log.i(TAG, "onClick cvChat");
-                fragment = chatFragment;
-                bottomNavigation.setSelectedItemId(R.id.action_chat);
+                viewPager.setCurrentItem(2);
                 break;
             case R.id.cvMusic:
                 Log.i(TAG, "onClick cvMusic");
-                fragment = musicFragment;
-                bottomNavigation.setSelectedItemId(R.id.action_music);
+                viewPager.setCurrentItem(3);
                 break;
         }
-        fragmentManager.beginTransaction().replace(R.id.rlContainer, fragment).commit();
     }
 
     @Override
