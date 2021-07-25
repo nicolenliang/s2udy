@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,19 +18,17 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.s2udy.InRoomActivity;
 import com.example.s2udy.R;
 import com.example.s2udy.adapters.ListAdapter;
 import com.example.s2udy.models.ListItem;
 import com.example.s2udy.models.Room;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -44,6 +41,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator3;
 
 public class ListFragment extends Fragment
 {
@@ -73,7 +72,6 @@ public class ListFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
         items = new ArrayList<>();
-        BottomNavigationView bottomNav = (BottomNavigationView) requireActivity().findViewById(R.id.bottomNavigation);
 
         cvList = view.findViewById(R.id.cvList);
         tvTitle = view.findViewById(R.id.tvTitle);
@@ -86,6 +84,8 @@ public class ListFragment extends Fragment
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         cvList.startAnimation(bottomUp);
 
+        TabLayout tabLayout = requireActivity().findViewById(R.id.tabLayout);
+        CircleIndicator3 indicator = requireActivity().findViewById(R.id.indicator);
         // keyboard listener: if up, disappear navbar
         KeyboardVisibilityEvent.setEventListener(requireActivity(), new KeyboardVisibilityEventListener()
         {
@@ -94,7 +94,8 @@ public class ListFragment extends Fragment
             {
                 if (isOpen)
                 {
-                    bottomNav.setVisibility(View.GONE);
+                    tabLayout.setVisibility(View.GONE);
+                    indicator.setVisibility(View.GONE);
                     ViewGroup.LayoutParams rvParams = rvList.getLayoutParams();
                     rvParams.height = rvList.getHeight() - (3 * etItem.getHeight());
                     rvList.setLayoutParams(rvParams);
@@ -105,13 +106,14 @@ public class ListFragment extends Fragment
                 }
                 else // keyboard back down
                 {
-                    bottomNav.setVisibility(View.VISIBLE);
+                    tabLayout.setVisibility(View.VISIBLE);
+                    indicator.setVisibility(View.VISIBLE);
                     ViewGroup.LayoutParams rvParams = rvList.getLayoutParams();
                     rvParams.height = rvList.getHeight() + (3 * etItem.getHeight());
                     rvList.setLayoutParams(rvParams);
 
                     FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlItem.getLayoutParams();
-                    rlParams.setMargins(0, 0, 0, etItem.getHeight() + bottomNav.getHeight() + 10);
+                    rlParams.setMargins(0, 0, 0, 2 * etItem.getHeight() + 20);
                     rlItem.setLayoutParams(rlParams);
                 }
             }

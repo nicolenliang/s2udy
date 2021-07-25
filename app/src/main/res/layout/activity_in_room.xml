@@ -51,16 +51,6 @@
         android:textAlignment="center"
         tools:text="zoom.link.com" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        app:menu="@menu/menu_bottom_navigation" >
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -176,16 +166,24 @@
 
     </androidx.gridlayout.widget.GridLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/smartTabLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
+    </androidx.viewpager2.widget.ViewPager2>
 
-    </androidx.viewpager.widget.ViewPager>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:focusable="auto" />
 
-    <me.relex.circleindicator.CircleIndicator
+    <me.relex.circleindicator.CircleIndicator3
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="48dp"

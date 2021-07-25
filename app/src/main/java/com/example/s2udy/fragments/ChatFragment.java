@@ -22,12 +22,11 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.s2udy.InRoomActivity;
 import com.example.s2udy.R;
 import com.example.s2udy.adapters.ChatAdapter;
 import com.example.s2udy.models.Message;
 import com.example.s2udy.models.Room;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -43,6 +42,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator3;
 
 public class ChatFragment extends Fragment implements View.OnClickListener
 {
@@ -75,7 +76,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        BottomNavigationView bottomNav = (BottomNavigationView) requireActivity().findViewById(R.id.bottomNavigation);
 
         cvChat = view.findViewById(R.id.cvChat);
         tvTitle = view.findViewById(R.id.tvTitle);
@@ -121,6 +121,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener
             });
         });
 
+        TabLayout tabLayout = requireActivity().findViewById(R.id.tabLayout);
+        CircleIndicator3 indicator = requireActivity().findViewById(R.id.indicator);
+
         // keyboard listener: if up, disappear navbar
         KeyboardVisibilityEvent.setEventListener(requireActivity(), new KeyboardVisibilityEventListener()
         {
@@ -129,7 +132,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener
             {
                 if (isOpen)
                 {
-                    bottomNav.setVisibility(View.GONE);
+                    tabLayout.setVisibility(View.GONE);
+                    indicator.setVisibility(View.GONE);
                     ViewGroup.LayoutParams rvParams = rvChat.getLayoutParams();
                     rvParams.height = rvChat.getHeight() - (2 * rlMessage.getHeight());
                     rvChat.setLayoutParams(rvParams);
@@ -140,13 +144,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener
                 }
                 else
                 {
-                    bottomNav.setVisibility(View.VISIBLE);
+                    tabLayout.setVisibility(View.VISIBLE);
+                    indicator.setVisibility(View.VISIBLE);
                     ViewGroup.LayoutParams rvParams = rvChat.getLayoutParams();
                     rvParams.height = rvChat.getHeight() + (int)(2.5 * rlMessage.getHeight());
                     rvChat.setLayoutParams(rvParams);
 
                     FrameLayout.LayoutParams rlParams = (FrameLayout.LayoutParams) rlMessage.getLayoutParams();
-                    rlParams.setMargins(0, 0, 0, etMessage.getHeight() + bottomNav.getHeight() + 10);
+                    rlParams.setMargins(0, 0, 0, 2 * etMessage.getHeight() + 20);
                     rlMessage.setLayoutParams(rlParams);
                 }
             }
@@ -200,7 +205,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
                         messages.add(message);
                 }
                 adapter.notifyDataSetChanged();
-                rvChat.smoothScrollToPosition(0);
+                rvChat.smoothScrollToPosition(messages.size() - 1);
             }
         });
     }
