@@ -8,13 +8,12 @@
 
 ## Overview
 
-### Descriptions
-#### Study Together
-- Create public/private rooms to study together; whoever leaves the app puts a strike on the session (three strikes type thing); includes timers, chat, music, task list, etc.
-- Less useful, but might be good for quarantine time
+### Description
+s2udy is an app to connect both friends and strangers to study together. 
+#### Gif
+<img src="walkthrough.gif" width=300 />
 
-### App Evaluations
-#### Study Together
+### App Evaluation
 - <u>Category:</u>  Mobile; Social; Productivity
 - <u>Mobile:</u>  Keeps users off their phone while studying. 
 - <u>Story:</u>  Allows users to study together remotely and keep accountability.
@@ -24,86 +23,93 @@
 
 
 ## Product Specs
-### Study Together
-    
-   1. User Stories (Required and Optional)
-        * Required Must-have Stories
-            - [x] User can create account
-            - [x] User can log in
-            - [x] User can create study room
-            - [x] User can join study room
-            - [x] User can edit task list
-            - [x] User can set timer
-            - [x] User can chat
-            - [ ] User can play music
+##### 1. User Stories (Required and Optional)
+    * Required Must-have Stories
+        - [x] User can create account
+        - [x] User can log in
+        - [x] User can create study room
+        - [x] User can join study room
+        - [x] User can edit task list
+        - [x] User can set timer
+        - [x] User can chat
+        - [x] User can play music
+        
+        - [x] The app has multiple views
+        - [x] The app interacts with a database (e.g. Parse)
+        - [x] The app integrates at least one SDK (e.g. Google Maps SDK, Facebook SDK) or API (that you didn’t learn about in CodePath)
+        - [x] The app uses at least one gesture (e.g. double tap to like, e.g. pinch to scale)
+        - [x] The app uses at least one animation (e.g. fade in/out, e.g. animating a view growing and shrinking)
+        - [x] The app incorporates at least one external library to add visual polish
+        - [] The app provides opportunities for you to overcome difficult/ambiguous technical problems (more belo
 
-        * Optional Nice-to-have Stories
-            - [ ] User can create private rooms
-            - [ ] User can share rooms through invitation links
-            - [ ] User can have personal task list and timer
-            - [ ] User can upload and edit a profile picture
+    * Optional Nice-to-have Stories
+        - [ ] User can create private rooms
+        - [ ] User can share rooms through invitation links
+        - [x] User can upload and edit a profile picture
+        - [ ] User can search for songs within the app
+        - [ ] User can filter rooms according to:
+            - [ ] Tags
+            - [ ] Room size
+            - [ ] Room settings (chat enabled, public/private)
             
 
-   2. Screen Archetypes
-        * Registration screen
-            - User can create account
-        * Login screen
-            - User can log in
-        * Create room screen
-            - User can create study room
-        * Rooms screen
-            - User can join study room
-        * Home room screen
-            - User can edit task list
-            - User can set timer
-            - User can chat
-            - User can play music
-        * Tasklist screen
-            - User can edit task list
-        * Timer screen
-            - User can set tier
-        * Chat screen
-            - User can chat
-        * Music screen
-            - User can play music
+##### 2. Screen Archetypes
+    * Registration screen
+        - User can create account
+    * Login screen
+        - User can log in
+    * Create room screen
+        - User can create study room
+    * Rooms screen
+        - User can join study room
+    * Home room screen
+        - User can edit task list
+        - User can set timer
+        - User can chat
+        - User can play music
+    * Tasklist screen
+        - User can edit task list
+    * Timer screen
+        - User can set tier
+    * Chat screen
+        - User can chat
+    * Music screen
+        - User can play music
 
 
-   3. Navigation
-        * Tab Navigation (Tab to Screen)
-            - Create room screen
-            - Tasklist screen
-            - Timer screen
-            - Chat screen
-            - Music screen
+##### 3. Navigation
+    * Tab Navigation (Tab to Screen)
+        - Create room screen
+        - Tasklist screen
+        - Timer screen
+        - Chat screen
+        - Music screen
 
-        * Flow Navigation (Screen to Screen)
-            - Registration screen
-                --> Login screen
-                --> Rooms screen
-            - Login screen
-                --> Registration screen
-                --> Rooms screen
-            - Create room screen
-                --> Home room screen
-                --> Rooms screen (cancel creation)
-            - Rooms screen
-                --> Create room screen
-                --> Home room screen (upon joining)
-            - Home room screen
-                --> Tasklist screen
-                --> Timer screen
-                --> Chat screen
-                --> Music screen
-            - Tasklist, Timer, Chat, Music screens
-                --> Home room screen 
+    * Flow Navigation (Screen to Screen)
+        - Registration screen
+            --> Login screen
+            --> Rooms screen
+        - Login screen
+            --> Registration screen
+            --> Rooms screen
+        - Create room screen
+            --> Home room screen
+            --> Rooms screen (cancel creation)
+        - Rooms screen
+            --> Create room screen
+            --> Home room screen (upon joining)
+        - Home room screen
+            --> Tasklist screen
+            --> Timer screen
+            --> Chat screen
+            --> Music screen
+        - Tasklist, Timer, Chat, Music screens
+            --> Home room screen 
 
 
 ## Wireframes
 ### [BONUS] Digital Wireframes & Mockups
 <img src="FBU APP.png" width=600>
-
-### [BONUS] Interactive Prototype
-Pending...
 
 ## Schema 
 ### Models
