@@ -178,6 +178,11 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
                 }
             });
         }
+        if (item.getItemId() == R.id.action_profile)
+        {
+            Intent i = new Intent(InRoomActivity.this, ProfileActivity.class);
+            startActivity(i);
+        }
         return true;
     }
 }
