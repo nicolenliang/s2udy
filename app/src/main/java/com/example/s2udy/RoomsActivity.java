@@ -160,6 +160,11 @@ public class RoomsActivity extends AppCompatActivity
                 }
             });
         }
+        if (item.getItemId() == R.id.action_profile)
+        {
+            Intent i = new Intent(RoomsActivity.this, ProfileActivity.class);
+            startActivity(i);
+        }
         return true;
     }
 }

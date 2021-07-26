@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.s2udy.models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -17,7 +18,7 @@ import com.parse.SignUpCallback;
 public class SignupActivity extends AppCompatActivity
 {
     public static final String TAG = "SignupActivity";
-    EditText etUsername, etEmail, etPassword;
+    EditText etName, etUsername, etEmail, etPassword;
     Button btnSignup, btnLogin;
 
     @Override
@@ -26,6 +27,7 @@ public class SignupActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        etName = findViewById(R.id.etName);
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -37,10 +39,11 @@ public class SignupActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Log.i(TAG, "onClick: SIGN UP BUTTON");
+                String name = etName.getText().toString();
                 String username = etUsername.getText().toString();
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
-                signupUser(username, email, password);
+                signupUser(name, username, email, password);
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener()
@@ -55,11 +58,12 @@ public class SignupActivity extends AppCompatActivity
         });
     }
 
-    private void signupUser(String username, String email, String password)
+    private void signupUser(String name, String username, String email, String password)
     {
         // create ParseUser obj
-        ParseUser user = new ParseUser();
+        User user = new User();
         // set properties
+        user.setName(name);
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
