@@ -24,7 +24,7 @@
         android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/ic_baseline_account_circle" />
 
     <Button
         android:id="@+id/btnProfile"
