@@ -30,6 +30,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -81,7 +82,19 @@ public class SignupActivity extends AppCompatActivity
                     Toast.makeText(SignupActivity.this, "must fill out all fields!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                signupUser(name, username, email, password, profile);
+                profile.saveInBackground(new SaveCallback()
+                {
+                    @Override
+                    public void done(ParseException e)
+                    {
+                        if (e != null)
+                        {
+                            Log.e(TAG, "error in saving profile photo", e);
+                            return;
+                        }
+                        signupUser(name, username, email, password, profile);
+                    }
+                });
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener()
