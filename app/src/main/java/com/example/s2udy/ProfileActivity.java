@@ -130,6 +130,7 @@ public class ProfileActivity extends AppCompatActivity
                 ParseFile profile = bitmapToParsefile(bitmap);
 
                 saveInfo(name, username, email, password, profile);
+                finish();
             }
         });
     }
@@ -152,7 +153,7 @@ public class ProfileActivity extends AppCompatActivity
                     Log.e(TAG, "saveInfo() error in saving: ", e);
                     return;
                 }
-                Toast.makeText(ProfileActivity.this, "user information updated!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "user information saved!", Toast.LENGTH_SHORT).show();
                 etName.setEnabled(false);
                 etUsername.setEnabled(false);
                 etEmail.setEnabled(false);
