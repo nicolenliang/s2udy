@@ -185,8 +185,8 @@ public class ListFragment extends Fragment
                     return;
                 }
                 ListItem newItem = new ListItem();
-                saveItem(newItem);
-                rvList.smoothScrollToPosition(items.size() - 1);
+                saveItem(newItem, body);
+                rvList.smoothScrollToPosition(0);
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener()
@@ -222,9 +222,8 @@ public class ListFragment extends Fragment
         });
     }
 
-    private void saveItem(ListItem newItem)
+    private void saveItem(ListItem newItem, String body)
     {
-        String body = etItem.getText().toString();
         newItem.setBody(body);
         newItem.setRoom(room);
         newItem.saveInBackground(new SaveCallback()

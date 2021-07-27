@@ -205,7 +205,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
                         messages.add(message);
                 }
                 adapter.notifyDataSetChanged();
-                rvChat.smoothScrollToPosition(messages.size() - 1);
+                rvChat.smoothScrollToPosition(0);
             }
         });
     }
