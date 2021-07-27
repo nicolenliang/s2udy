@@ -65,11 +65,42 @@
         android:id="@+id/etName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tvInformation"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="name"
         android:inputType="textPersonName" />
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/ic_baseline_account_circle" />
+
+    <Button
+        android:id="@+id/btnProfile"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivProfile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:text="add profile photo"
+        android:textColor="@android:color/tertiary_text_dark" />
+
+    <TextView
+        android:id="@+id/tvInformation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnProfile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="USER INFORMATION"
+        android:textSize="16sp" />
 
 </RelativeLayout>
