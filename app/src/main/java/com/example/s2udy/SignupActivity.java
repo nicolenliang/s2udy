@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.s2udy.models.User;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class SignupActivity extends AppCompatActivity
@@ -43,6 +42,11 @@ public class SignupActivity extends AppCompatActivity
                 String username = etUsername.getText().toString();
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
+                if (name.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty())
+                {
+                    Toast.makeText(SignupActivity.this, "must fill out all fields!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 signupUser(name, username, email, password);
             }
         });
