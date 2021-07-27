@@ -92,10 +92,10 @@ public class CreateActivity extends AppCompatActivity
                     Log.e(TAG, "issue in creating room!", e);
                     return;
                 }
-                Log.i(TAG, "room created successfully! capacity: " + room.getCapacity());
-                finish();
+                Log.i(TAG, "room created successfully!");
             }
         });
+        finish();
         return room;
     }
 }
