@@ -85,6 +85,7 @@ public class RoomsActivity extends AppCompatActivity
                 moreRooms();
             }
         };
+        rvRooms.addOnScrollListener(scrollListener);
     }
 
     private void moreRooms()
