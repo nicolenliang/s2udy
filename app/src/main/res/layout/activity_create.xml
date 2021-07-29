@@ -40,21 +40,21 @@
         android:inputType="text" />
 
     <EditText
-        android:id="@+id/etCapacity"
+        android:id="@+id/etTags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etDescription"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="capacity"
-        android:inputType="number" />
+        android:hint="tags (quiet, bio, etc.)"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/etMusic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etCapacity"
+        android:layout_below="@+id/etTags"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:ems="10"

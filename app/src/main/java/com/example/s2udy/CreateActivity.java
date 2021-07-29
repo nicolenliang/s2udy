@@ -19,11 +19,15 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class CreateActivity extends AppCompatActivity
 {
     public static final String TAG = "CreateActivity";
-    public static int capacity;
-    EditText etName, etDescription, etCapacity, etMusic, etZoom;
+    public List<String> tags;
+    EditText etName, etDescription, etTags, etMusic, etZoom;
     Switch switchChat;
     Button btnCreate;
 
@@ -37,7 +41,7 @@ public class CreateActivity extends AppCompatActivity
 
         etName = findViewById(R.id.etName);
         etDescription = findViewById(R.id.etDescription);
-        etCapacity = findViewById(R.id.etCapacity);
+        etTags = findViewById(R.id.etTags);
         etMusic = findViewById(R.id.etMusic);
         etZoom = findViewById(R.id.etZoom);
         switchChat = findViewById(R.id.switchChat);
@@ -58,13 +62,12 @@ public class CreateActivity extends AppCompatActivity
                 }
                 Boolean chat = switchChat.isChecked();
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                String capacityS = etCapacity.getText().toString();
+                String tagsUnparsed = etTags.getText().toString();
+                tags = new ArrayList<>(Arrays.asList(tagsUnparsed.toLowerCase().split("\\s*, \\s*")));
                 String musicLink = etMusic.getText().toString();
                 String zoomLink = etZoom.getText().toString();;
-                if (!capacityS.isEmpty())
-                    capacity = Integer.parseInt(capacityS);
 
-                Room room = createRoom(name, description, chat, currentUser, capacity, musicLink, zoomLink);
+                Room room = createRoom(name, description, chat, currentUser, tags, musicLink, zoomLink);
                 Intent i = new Intent(CreateActivity.this, InRoomActivity.class);
                 i.putExtra(Room.class.getSimpleName(), Parcels.wrap(room));
                 startActivity(i);
@@ -72,14 +75,14 @@ public class CreateActivity extends AppCompatActivity
         });
     }
 
-    private Room createRoom(String name, String description, Boolean chat, ParseUser currentUser, int capacity, String musicLink, String zoomLink)
+    private Room createRoom(String name, String description, Boolean chat, ParseUser currentUser, List<String> tags, String musicLink, String zoomLink)
     {
         Room room = new Room();
         room.setName(name);
         room.setDescription(description);
         room.setChatEnabled(chat);
         room.setHost(currentUser);
-        room.setCapacity(capacity);
+        room.setTags(tags);
         room.setMusic(musicLink);
         room.setZoom(zoomLink);
         room.saveInBackground(new SaveCallback()

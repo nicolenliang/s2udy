@@ -4,6 +4,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 @ParseClassName("Room")
 public class Room extends ParseObject
 {
@@ -16,6 +18,7 @@ public class Room extends ParseObject
     public static final String KEY_CHAT = "chatEnabled";
     public static final String KEY_MUSIC = "music";
     public static final String KEY_ZOOM = "zoom";
+    public static final String KEY_TAGS = "tags";
 
     public String getId() { return getString(KEY_ID); }
 
@@ -42,4 +45,7 @@ public class Room extends ParseObject
 
     public String getZoom() { return getString(KEY_ZOOM); }
     public void setZoom(String zoom) { put(KEY_ZOOM, zoom); }
+
+    public List<String> getTags() { return getList(KEY_TAGS); }
+    public void setTags(List<String> tags) { put(KEY_TAGS, tags); }
 }
