@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="-100dp"
+    app:layout_anchorGravity="bottom"
     tools:context=".fragments.TimerFragment">
 
     <androidx.cardview.widget.CardView
@@ -14,7 +15,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="-50dp"
         android:clickable="true"
         app:cardBackgroundColor="#C3C3C3"
         app:cardCornerRadius="50dp">
@@ -30,10 +30,10 @@
 
         <ImageView
             android:id="@+id/ivAlbum"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="275dp"
+            android:layout_height="275dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="120dp"
             android:background="#FFFFFF"
             android:padding="3dp"
             tools:src="@tools:sample/avatars" />
@@ -43,8 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="43dp"
-            android:layout_marginBottom="255dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginBottom="245dp"
             android:ellipsize="end"
             android:ems="13"
             android:fontFamily="sans-serif-black"
@@ -57,11 +57,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="43dp"
-            android:layout_marginBottom="235dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginBottom="225dp"
             android:fontFamily="sans-serif"
-            tools:text="Mitski"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="Mitski" />
 
         <ImageButton
             android:id="@+id/ibPlayPause"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginEnd="37dp"
-            android:layout_marginBottom="175dp"
+            android:layout_marginBottom="170dp"
             android:background="@null"
             android:src="@drawable/ic_baseline_pause_circle_outline" />
 
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginStart="45dp"
-            android:layout_marginBottom="175dp"
+            android:layout_marginBottom="170dp"
             android:background="@null"
             android:src="@drawable/ic_baseline_skip_next" />
 
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginEnd="125dp"
-            android:layout_marginBottom="175dp"
+            android:layout_marginBottom="170dp"
             android:background="@null"
             android:src="@drawable/ic_baseline_skip_previous" />
 
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="43dp"
+            android:layout_marginStart="55dp"
             android:layout_marginBottom="110dp"
             android:ems="10"
             android:focusableInTouchMode="false"
@@ -112,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="43dp"
+            android:layout_marginEnd="45dp"
             android:layout_marginBottom="110dp"
             android:includeFontPadding="false"
             android:text="add"
@@ -124,9 +124,40 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginStart="125dp"
-            android:layout_marginBottom="175dp"
+            android:layout_marginBottom="170dp"
             android:background="@null"
             android:src="@drawable/ic_baseline_queue_music" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="75dp"
+            android:ems="10"
+            android:hint="search for a song!"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnSearch"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="75dp"
+            android:layout_marginEnd="45dp"
+            android:text="search"
+            android:textColor="#FFFFFF" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSearch"
+            android:layout_width="300dp"
+            android:layout_height="335dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="120dp"
+            android:background="#C3C3C3"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </androidx.cardview.widget.CardView>
 
