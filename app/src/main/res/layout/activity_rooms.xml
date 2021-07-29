@@ -12,31 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeContainer"
+    <com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp">
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="50dp"
+        android:hint="apply a filter!"
+        android:spinnerMode="dropdown" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRooms"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <TextView
-        android:id="@+id/tvTitle"
+    <ImageButton
+        android:id="@+id/btnFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="75dp"
-        android:text="JOIN ROOMS"
-        android:textSize="34sp" />
+        android:layout_below="@+id/tvTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:src="@drawable/ic_baseline_filter" />
 
     <ImageButton
         android:id="@+id/btnCreate"
@@ -49,5 +46,31 @@
         android:background="@null"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_baseline_add_circle_outline" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="75dp"
+        android:text="JOIN ROOMS"
+        android:textSize="34sp" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/spinner"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-5dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRooms"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
