@@ -23,20 +23,25 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class RoomsActivity extends AppCompatActivity
 {
     public static final String TAG = "RoomsActivity";
     Toolbar toolbar;
-    ImageButton btnCreate;
+    ImageButton btnCreate, btnFilter;
     RecyclerView rvRooms;
     RoomsAdapter adapter;
     List<Room> rooms;
+    List<String> allTags, selectedTags;
+    HashMap<String, List<Room>> tagsToRooms;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
+    MultiSelectionSpinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,9 +52,14 @@ public class RoomsActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
+        allTags = new ArrayList<>();
+        selectedTags = new ArrayList<>();
+        tagsToRooms = new HashMap<>();
         rooms = new ArrayList<>();
         swipeContainer = findViewById(R.id.swipeContainer);
         btnCreate = findViewById(R.id.btnCreate);
+        btnFilter = findViewById(R.id.btnFilter);
+        spinner = findViewById(R.id.spinner);
         // set up recycler view --> create adapter --> setup layout manager --> connect rv
         rvRooms = findViewById(R.id.rvRooms);
         adapter = new RoomsAdapter(this, rooms);
@@ -58,6 +68,44 @@ public class RoomsActivity extends AppCompatActivity
         rvRooms.setLayoutManager(gridLayoutManager);
         queryRooms();
 
+        spinner.setItems(allTags);
+        spinner.setHint("apply a filter!");
+        spinner.setOnItemSelectedListener(new MultiSelectionSpinner.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(View view, boolean isSelected, int position)
+            {
+                String selectedTag = allTags.get(position);
+                Log.i(TAG, "item selected: " + selectedTag + "; isSelected: " + isSelected);
+                if (isSelected && !selectedTags.contains(selectedTag))
+                    selectedTags.add(selectedTag);
+                else if (!isSelected && selectedTags.contains(selectedTag))
+                    selectedTags.remove(selectedTag);
+            }
+
+            @Override
+            public void onSelectionCleared()
+            {
+                spinner.clear();
+                selectedTags.clear();
+                spinner.setItems(allTags);
+            }
+        });
+        btnFilter.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.i(TAG, "btnFilter on click");
+                if (!selectedTags.isEmpty())
+                    filterRooms();
+                else
+                {
+                    rooms.clear();
+                    queryRooms();
+                }
+            }
+        });
         btnCreate.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -73,7 +121,10 @@ public class RoomsActivity extends AppCompatActivity
             public void onRefresh()
             {
                 adapter.clear();
-                queryRooms();
+                if (!selectedTags.isEmpty())
+                    filterRooms();
+                else
+                    queryRooms();
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -106,9 +157,14 @@ public class RoomsActivity extends AppCompatActivity
                     return;
                 }
                 for (Room room : objects)
-                    Log.i(TAG, "room name: " + room.getName() + "; host: " + room.getHost().getUsername());
+                {
+                    Log.i(TAG, "MOREROOMS -- room name: " + room.getName() + "; host: " + room.getHost().getUsername());
+                    if (room.getTags() != null)
+                        allTags.addAll(room.getTags());
+                }
                 rooms.addAll(objects);
                 adapter.notifyDataSetChanged();
+                invertIndex();
             }
         });
     }
@@ -130,11 +186,49 @@ public class RoomsActivity extends AppCompatActivity
                     return;
                 }
                 for (Room room : objects)
-                    Log.i(TAG, "room name: " + room.getName() + "; host: " + room.getHost().getUsername());
+                {
+                    Log.i(TAG, "QUERYROOMS -- room name: " + room.getName() + "; host: " + room.getHost().getUsername());
+                    if (room.getTags() != null)
+                        allTags.addAll(room.getTags());
+                }
                 rooms.addAll(objects);
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void filterRooms()
+    {
+        Log.i(TAG, "entered filterRooms()");
+        rooms.clear();
+        for (String tag : selectedTags)
+        {
+            if (tagsToRooms.get(tag) != null)
+            {
+                Log.i(TAG, tag + " has rooms: " + tagsToRooms.get(tag));
+                rooms.addAll(tagsToRooms.get(tag));
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    // mappify allTags: each tag has its own room(s)
+    private void invertIndex()
+    {
+        Log.i(TAG, "entered invertIndex()");
+        // map: KEY = tag; VALUE = rooms with tag
+        for (String tag : allTags)
+        {
+            List<Room> tagRooms = new ArrayList<>();
+
+            if (!(tagsToRooms.containsKey(tag))) // add new tag to list if it doesn't exist
+                tagsToRooms.put(tag, tagRooms);
+
+            for (Room room : rooms)
+                if ((room.getTags()).contains(tag) && !tagRooms.contains(room))
+                    tagRooms.add(room);
+            tagsToRooms.put(tag, tagRooms);
+        }
     }
 
     @Override
