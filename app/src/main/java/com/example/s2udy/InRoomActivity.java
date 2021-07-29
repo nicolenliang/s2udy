@@ -12,10 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.davidmiguel.dragtoclose.DragToClose;
 import com.example.s2udy.adapters.PageAdapter;
 import com.example.s2udy.models.Room;
 import com.google.android.material.tabs.TabLayout;
@@ -33,10 +33,11 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     public static final String TAG = "InRoomActivity";
     public Room room;
     Toolbar toolbar;
-    RelativeLayout rlContainer;
     TextView tvTitle, tvHost, tvDescription, tvLink;
     CardView cvTimer, cvList, cvChat, cvMusic;
-    ViewPager2 viewPager;
+    public ViewPager2 viewPager;
+    TabLayout tabLayout;
+    DragToClose dragToClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,7 +48,6 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        rlContainer = findViewById(R.id.rlContainer);
         tvTitle = findViewById(R.id.tvTitle);
         tvHost = findViewById(R.id.tvHost);
         tvDescription = findViewById(R.id.tvDescription);
@@ -57,6 +57,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         cvChat = findViewById(R.id.cvChat);
         cvMusic = findViewById(R.id.cvMusic);
         viewPager = findViewById(R.id.viewPager);
+        dragToClose = findViewById(R.id.dragToClose);
 
         room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
         tvTitle.setText(room.getName());
@@ -66,10 +67,9 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
 
         PageAdapter pAdapter = new PageAdapter(InRoomActivity.this, room);
         viewPager.setAdapter(pAdapter);
-        viewPager.setVisibility(View.GONE);
         CircleIndicator3 indicator = findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout = findViewById(R.id.tabLayout);
         new TabLayoutMediator(tabLayout, viewPager, (TabLayoutMediator.TabConfigurationStrategy) (tab, position) ->
         {
             switch (position)
@@ -94,7 +94,8 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             public void onTabSelected(TabLayout.Tab tab)
             {
                 viewPager.setVisibility(View.VISIBLE);
-                viewPager.setCurrentItem(tab.getPosition());
+                viewPager.setCurrentItem(tab.getPosition(), true);
+                dragToClose.openDraggableContainer();
             }
 
             @Override
@@ -108,7 +109,10 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
                 if (viewPager.getVisibility() == View.VISIBLE)
                     viewPager.setVisibility(View.GONE);
                 else
+                {
                     viewPager.setVisibility(View.VISIBLE);
+                    dragToClose.openDraggableContainer();
+                }
             }
         });
 
@@ -116,40 +120,33 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         cvList.setOnClickListener(this);
         cvChat.setOnClickListener(this);
         cvMusic.setOnClickListener(this);
-
-        rlContainer.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (viewPager.getVisibility() == View.VISIBLE)
-                    viewPager.setVisibility(View.GONE);
-            }
-        });
     }
 
     @Override
     public void onClick(View v)
     {
         viewPager.setVisibility(View.VISIBLE);
+        dragToClose.openDraggableContainer();
 
         switch(v.getId())
         {
             case R.id.cvChat:
                 Log.i(TAG, "onClick cvChat");
-                viewPager.setCurrentItem(0);
+                viewPager.setCurrentItem(0, true);
                 break;
             case R.id.cvTimer:
                 Log.i(TAG, "onClick cvTimer");
-                viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(1, true);
                 break;
             case R.id.cvList:
                 Log.i(TAG, "onClick cvList");
-                viewPager.setCurrentItem(2);
+                viewPager.setCurrentItem(2, true);
                 break;
             case R.id.cvMusic:
                 Log.i(TAG, "onClick cvMusic");
-                viewPager.setCurrentItem(3);
+                viewPager.setCurrentItem(3, true);
+                break;
+            default:
                 break;
         }
     }
