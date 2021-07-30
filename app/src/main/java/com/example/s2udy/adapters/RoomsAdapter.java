@@ -60,7 +60,7 @@ public class RoomsAdapter extends RecyclerView.Adapter
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        TextView tvRoomName, tvHost, tvChatEnable, tvDescription;
+        TextView tvRoomName, tvHost, tvChatEnable, tvTags, tvDescription;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -68,6 +68,7 @@ public class RoomsAdapter extends RecyclerView.Adapter
             tvRoomName = itemView.findViewById(R.id.tvRoomName);
             tvHost = itemView.findViewById(R.id.tvHost);
             tvChatEnable = itemView.findViewById(R.id.tvChatEnable);
+            tvTags = itemView.findViewById(R.id.tvTags);
             tvDescription = itemView.findViewById(R.id.tvDescription);
 
             itemView.setOnClickListener(this);
@@ -81,6 +82,9 @@ public class RoomsAdapter extends RecyclerView.Adapter
             if (room.getChatEnabled())
                 chat = "enabled";
             tvChatEnable.setText("chat: " + chat);
+            String tags = room.getTags().toString();
+            tags = tags.substring(1, tags.length() - 1);
+            tvTags.setText("tags: " + tags);
             tvDescription.setText(room.getDescription());
         }
 
