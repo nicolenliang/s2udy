@@ -61,7 +61,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
 
         room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
         tvTitle.setText(room.getName());
-        tvHost.setText(room.getHost().getUsername());
+        tvHost.setText("host: " + room.getHost().getUsername());
         tvDescription.setText(room.getDescription());
         tvLink.setText(room.getZoom());
 

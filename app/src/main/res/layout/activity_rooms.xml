@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="50dp"
         android:hint="apply a filter!"
