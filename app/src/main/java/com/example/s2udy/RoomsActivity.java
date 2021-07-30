@@ -25,9 +25,14 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RoomsActivity extends AppCompatActivity
 {
@@ -37,7 +42,8 @@ public class RoomsActivity extends AppCompatActivity
     RecyclerView rvRooms;
     RoomsAdapter adapter;
     List<Room> rooms;
-    List<String> allTags, selectedTags;
+    public List<String> allTags;
+    List<String> selectedTags;
     HashMap<String, List<Room>> tagsToRooms;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
@@ -112,6 +118,7 @@ public class RoomsActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent i = new Intent(RoomsActivity.this, CreateActivity.class);
+                i.putExtra("allTags", Parcels.wrap(allTags));
                 startActivity(i);
             }
         });
@@ -165,6 +172,10 @@ public class RoomsActivity extends AppCompatActivity
                 rooms.addAll(objects);
                 adapter.notifyDataSetChanged();
                 invertIndex();
+
+                Set<String> distinctTags = new HashSet<>(allTags);
+                allTags.clear();
+                allTags.addAll(distinctTags);
             }
         });
     }

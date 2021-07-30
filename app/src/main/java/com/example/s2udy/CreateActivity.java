@@ -16,6 +16,7 @@ import com.example.s2udy.models.Room;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner;
 
 import org.parceler.Parcels;
 
@@ -26,12 +27,13 @@ import java.util.List;
 public class CreateActivity extends AppCompatActivity
 {
     public static final String TAG = "CreateActivity";
-    public List<String> tags;
+    public List<String> tags, allTags;
+    List<String> createdTags, selectedTags;
     EditText etName, etDescription, etTags, etMusic, etZoom;
+    TextView tvTitle, tvTags, tvRequired;
     Switch switchChat;
     Button btnCreate;
-
-    TextView tvRequired;
+    MultiSelectionSpinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,14 +41,21 @@ public class CreateActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
+        allTags = Parcels.unwrap(getIntent().getParcelableExtra("allTags"));
+        tags = new ArrayList<>();
+
         etName = findViewById(R.id.etName);
         etDescription = findViewById(R.id.etDescription);
         etTags = findViewById(R.id.etTags);
         etMusic = findViewById(R.id.etMusic);
         etZoom = findViewById(R.id.etZoom);
+        tvTitle = findViewById(R.id.tvTitle);
+        tvTags = findViewById(R.id.tvTags);
+        tvRequired = findViewById(R.id.tvRequired);
         switchChat = findViewById(R.id.switchChat);
         btnCreate = findViewById(R.id.btnCreate);
-        tvRequired = findViewById(R.id.tvRequired);
+        spinner = findViewById(R.id.multiSelectSpinner);
+
         btnCreate.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -62,8 +71,14 @@ public class CreateActivity extends AppCompatActivity
                 }
                 Boolean chat = switchChat.isChecked();
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                String tagsUnparsed = etTags.getText().toString();
-                tags = new ArrayList<>(Arrays.asList(tagsUnparsed.toLowerCase().split("\\s*, \\s*")));
+                String tagsUnparsed = etTags.getText().toString(); // getting new created tags
+                createdTags = new ArrayList<>(Arrays.asList(tagsUnparsed.toLowerCase().split("\\s*, \\s*")));
+                for (String tag : allTags)
+                    if (createdTags.contains(tag))
+                        createdTags.remove(tag);
+                Log.i(TAG, "createdTags: " + createdTags + "; selectedTags: " + selectedTags);
+                tags.addAll(createdTags);
+                tags.addAll(selectedTags);
                 String musicLink = etMusic.getText().toString();
                 String zoomLink = etZoom.getText().toString();;
 
@@ -71,6 +86,30 @@ public class CreateActivity extends AppCompatActivity
                 Intent i = new Intent(CreateActivity.this, InRoomActivity.class);
                 i.putExtra(Room.class.getSimpleName(), Parcels.wrap(room));
                 startActivity(i);
+            }
+        });
+
+        spinner.setItems(allTags);
+        selectedTags = new ArrayList<>();
+        spinner.setOnItemSelectedListener(new MultiSelectionSpinner.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(View view, boolean isSelected, int position)
+            {
+                String selectedTag = allTags.get(position);
+                Log.i(TAG, "item selected: " + selectedTag + "; isSelected: " + isSelected);
+                if (isSelected && !selectedTags.contains(selectedTag))
+                    selectedTags.add(selectedTag);
+                else if (!isSelected && selectedTags.contains(selectedTag))
+                    selectedTags.remove(selectedTag);
+            }
+
+            @Override
+            public void onSelectionCleared()
+            {
+                spinner.clear();
+                selectedTags.clear();
+                spinner.setItems(allTags);
             }
         });
     }

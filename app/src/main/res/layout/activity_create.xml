@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     tools:context=".CreateActivity">
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="room name*"
         android:inputType="text" />
@@ -34,29 +34,57 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="description*"
         android:inputType="text" />
 
-    <EditText
-        android:id="@+id/etTags"
+    <TextView
+        android:id="@+id/tvTags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etDescription"
+        android:layout_below="@id/etZoom"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="tags (quiet, bio, etc.)"
-        android:inputType="text" />
+        android:layout_marginTop="10dp"
+        android:text="tags"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTags"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner
+            android:id="@+id/multiSelectSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:ems="10"
+            android:hint="choose tags"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/etTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:ems="10"
+            android:hint="create tags"
+            android:inputType="text" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/etMusic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etTags"
+        android:layout_below="@id/etDescription"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="spotify link*"
         android:inputType="none"
@@ -70,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etMusic"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="zoom link"
         android:inputType="text" />
@@ -79,9 +107,9 @@
         android:id="@+id/switchChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etZoom"
+        android:layout_below="@id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="enable chat?* "
         android:textSize="16sp" />
 
@@ -91,7 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/switchChat"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="50dp"
         android:text="create" />
 
     <TextView
