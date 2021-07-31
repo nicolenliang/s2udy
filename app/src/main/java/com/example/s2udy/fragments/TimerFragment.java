@@ -1,5 +1,7 @@
 package com.example.s2udy.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,7 @@ public class TimerFragment extends Fragment
     private long timeLeftInMillis;
     private boolean timerRunning, timerStarted;
     Room room;
+    String input, units;
     CountDownTimer cdTimer;
     CardView cvTimer;
     EditText etTimer;
@@ -88,7 +91,7 @@ public class TimerFragment extends Fragment
                 {
                     if (!timerStarted)
                     {
-                        String input = etTimer.getText().toString();
+                        input = etTimer.getText().toString();
                         if (input.isEmpty())
                         {
                             Toast.makeText(getContext(), "timer cannot be empty!", Toast.LENGTH_SHORT).show();
@@ -155,6 +158,18 @@ public class TimerFragment extends Fragment
                 btnStartPause.setText("start");
                 btnStartPause.setVisibility(View.INVISIBLE); // cant start timer when its at 00:00
                 btnReset.setVisibility(View.VISIBLE);
+                AlertDialog endDialog = new AlertDialog.Builder(getContext())
+                        .setTitle("timer for " + input + " " + units + " ended!")
+                        .setPositiveButton("close", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                endDialog.show();
             }
         }.start(); // immediately starts timer after calling method
         timerRunning = true;
@@ -171,17 +186,20 @@ public class TimerFragment extends Fragment
             int minutes = Integer.parseInt(input.substring(input.indexOf(":") + 1, input.indexOf(":", 3)));
             int seconds = Integer.parseInt(input.substring(input.indexOf(":", 3) + 1));
             startTimeInMillis = (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
+            units = "hours";
         }
         else if (input.length() == 5 || input.length() == 4) // mm:ss OR m:ss
         {
             int minutes = Integer.parseInt(input.substring(0, input.indexOf(":")));
             int seconds = Integer.parseInt(input.substring(input.indexOf(":") + 1));
             startTimeInMillis = (minutes * 60000) + (seconds * 1000);
+            units = "minutes";
         }
         else if (input.length() == 2 || input.length() == 1)
         {
             int seconds = Integer.parseInt(input);
             startTimeInMillis = seconds * 1000;
+            units = "seconds";
         }
         return startTimeInMillis;
     }
