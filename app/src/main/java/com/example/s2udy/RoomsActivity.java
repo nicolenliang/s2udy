@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class RoomsActivity extends AppCompatActivity
 {
@@ -83,10 +82,17 @@ public class RoomsActivity extends AppCompatActivity
             {
                 String selectedTag = allTags.get(position);
                 Log.i(TAG, "item selected: " + selectedTag + "; isSelected: " + isSelected);
-                if (isSelected && !selectedTags.contains(selectedTag))
-                    selectedTags.add(selectedTag);
-                else if (!isSelected && selectedTags.contains(selectedTag))
-                    selectedTags.remove(selectedTag);
+                if (selectedTag.equals("chat enabled"))
+                    filterChat(true);
+                else if (selectedTag.equals("chat disabled"))
+                    filterChat(false);
+                else
+                {
+                    if (isSelected && !selectedTags.contains(selectedTag))
+                        selectedTags.add(selectedTag);
+                    else if (!isSelected && selectedTags.contains(selectedTag))
+                        selectedTags.remove(selectedTag);
+                }
             }
 
             @Override
@@ -146,13 +152,11 @@ public class RoomsActivity extends AppCompatActivity
         rvRooms.addOnScrollListener(scrollListener);
     }
 
-    private void moreRooms()
+    private void filterChat(boolean enabled)
     {
         ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
         query.include(Room.KEY_HOST);
-        query.setSkip(rooms.size());
-        query.setLimit(10);
-        query.addDescendingOrder("createdAt");
+        query.whereEqualTo(Room.KEY_CHAT, enabled);
         query.findInBackground(new FindCallback<Room>()
         {
             @Override
@@ -160,48 +164,10 @@ public class RoomsActivity extends AppCompatActivity
             {
                 if (e != null)
                 {
-                    Log.e(TAG, "moreRooms issue in querying", e);
+                    Log.e(TAG, "filterChat error in querying rooms", e);
                     return;
                 }
-                for (Room room : objects)
-                {
-                    Log.i(TAG, "MOREROOMS -- room name: " + room.getName() + "; host: " + room.getHost().getUsername());
-                    if (room.getTags() != null)
-                        allTags.addAll(room.getTags());
-                }
-                rooms.addAll(objects);
-                adapter.notifyDataSetChanged();
-                invertIndex();
-
-                Set<String> distinctTags = new HashSet<>(allTags);
-                allTags.clear();
-                allTags.addAll(distinctTags);
-            }
-        });
-    }
-
-    private void queryRooms()
-    {
-        ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
-        query.include(Room.KEY_HOST);
-        query.setLimit(10);
-        query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<Room>()
-        {
-            @Override
-            public void done(List<Room> objects, ParseException e)
-            {
-                if (e != null)
-                {
-                    Log.e(TAG, "queryRooms issue in querying", e);
-                    return;
-                }
-                for (Room room : objects)
-                {
-                    Log.i(TAG, "QUERYROOMS -- room name: " + room.getName() + "; host: " + room.getHost().getUsername());
-                    if (room.getTags() != null)
-                        allTags.addAll(room.getTags());
-                }
+                adapter.clear();
                 rooms.addAll(objects);
                 adapter.notifyDataSetChanged();
             }
@@ -240,6 +206,70 @@ public class RoomsActivity extends AppCompatActivity
                     tagRooms.add(room);
             tagsToRooms.put(tag, tagRooms);
         }
+    }
+
+    private void moreRooms()
+    {
+        ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
+        query.include(Room.KEY_HOST);
+        query.setSkip(rooms.size());
+        query.setLimit(10);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Room>()
+        {
+            @Override
+            public void done(List<Room> objects, ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "moreRooms issue in querying", e);
+                    return;
+                }
+                for (Room room : objects)
+                {
+                    Log.i(TAG, "MOREROOMS -- room name: " + room.getName() + "; host: " + room.getHost().getUsername());
+                    if (room.getTags() != null)
+                        allTags.addAll(room.getTags());
+                }
+                rooms.addAll(objects);
+                adapter.notifyDataSetChanged();
+                invertIndex();
+
+                Set<String> distinctTags = new HashSet<>(allTags);
+                allTags.clear();
+                allTags.addAll(distinctTags);
+                allTags.add("chat enabled");
+                allTags.add("chat disabled");
+            }
+        });
+    }
+
+    private void queryRooms()
+    {
+        ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
+        query.include(Room.KEY_HOST);
+        query.setLimit(10);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Room>()
+        {
+            @Override
+            public void done(List<Room> objects, ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "queryRooms issue in querying", e);
+                    return;
+                }
+                for (Room room : objects)
+                {
+                    Log.i(TAG, "QUERYROOMS -- room name: " + room.getName() + "; host: " + room.getHost().getUsername());
+                    if (room.getTags() != null)
+                        allTags.addAll(room.getTags());
+                }
+                rooms.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
