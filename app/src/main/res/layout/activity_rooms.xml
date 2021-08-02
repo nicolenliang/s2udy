@@ -12,29 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitle"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="50dp"
-        android:hint="apply a filter!"
-        android:spinnerMode="dropdown" />
-
-    <ImageButton
-        android:id="@+id/btnFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitle"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@null"
-        android:src="@drawable/ic_baseline_filter" />
-
     <ImageButton
         android:id="@+id/btnCreate"
         android:layout_width="40dp"
@@ -57,13 +34,75 @@
         android:text="JOIN ROOMS"
         android:textSize="34sp" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/btnDropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:background="@null"
+            android:src="@drawable/ic_round_keyboard_arrow_down"
+            android:text="Button" />
+
+        <RelativeLayout
+            android:id="@+id/rlFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner
+                android:id="@+id/spinner"
+                android:layout_width="155dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="5dp"
+                android:hint="select tags"
+                android:spinnerMode="dropdown" />
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/btnFilter"
+                android:layout_toEndOf="@+id/spinner"
+                android:ems="10"
+                android:hint="search"
+                android:inputType="text" />
+
+            <ImageButton
+                android:id="@+id/btnFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:src="@drawable/ic_baseline_filter" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/spinner"
+        android:layout_below="@id/linearLayout"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-5dp">
+        android:layout_marginTop="0dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRooms"
