@@ -1,6 +1,7 @@
 package com.example.s2udy.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.CompoundButtonCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s2udy.R;
@@ -81,6 +83,20 @@ public class ListAdapter extends RecyclerView.Adapter
         {
             cbItem.setText(item.getBody());
             cbItem.setChecked(item.getDone());
+            ColorStateList colorStateList = new ColorStateList
+            (
+                new int[][]
+                {
+                    new int[]{-android.R.attr.state_checked}, // unchecked
+                    new int[]{android.R.attr.state_checked}, // checked
+                },
+                new int[]
+                {
+                    item.getColor(),
+                    item.getColor(),
+                }
+            );
+            CompoundButtonCompat.setButtonTintList(cbItem, colorStateList);
 
             cbItem.setOnLongClickListener(new View.OnLongClickListener()
             {

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -28,6 +29,7 @@ import com.example.s2udy.R;
 import com.example.s2udy.adapters.ListAdapter;
 import com.example.s2udy.models.ListItem;
 import com.example.s2udy.models.Room;
+import com.example.s2udy.models.User;
 import com.google.android.material.tabs.TabLayout;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -55,6 +57,7 @@ public class ListFragment extends Fragment
     EditText etItem, etEdit;
     RecyclerView rvList;
     Button btnAdd, btnClear;
+    User user = (User) User.getCurrentUser();
 
     public ListFragment(Room room)
     {
@@ -226,6 +229,7 @@ public class ListFragment extends Fragment
     {
         newItem.setBody(body);
         newItem.setRoom(room);
+        newItem.setColor(user.getColor());
         newItem.saveInBackground(new SaveCallback()
         {
             @Override

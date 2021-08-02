@@ -9,6 +9,7 @@ public class ListItem extends ParseObject
     public static final String KEY_BODY = "body";
     public static final String KEY_DONE = "done";
     public static final String KEY_ROOM = "room";
+    public static final String KEY_COLOR = "color";
 
     public String getBody() { return getString(KEY_BODY); }
     public void setBody(String body) { put(KEY_BODY, body); }
@@ -18,4 +19,7 @@ public class ListItem extends ParseObject
 
     public ParseObject getRoom() { return getParseObject(KEY_ROOM); }
     public void setRoom(Room room) { put(KEY_ROOM, room); }
+
+    public int getColor() { return getInt(KEY_COLOR); }
+    public void setColor(int color) { put(KEY_COLOR, color); }
 }
