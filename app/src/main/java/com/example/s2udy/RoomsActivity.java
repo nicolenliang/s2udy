@@ -13,11 +13,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.s2udy.adapters.RoomsAdapter;
 import com.example.s2udy.models.Room;
+import com.example.s2udy.models.User;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -33,12 +36,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RoomsActivity extends AppCompatActivity
+public class RoomsActivity extends AppCompatActivity implements View.OnClickListener
 {
     public static final String TAG = "RoomsActivity";
     Toolbar toolbar;
-    ImageButton btnCreate, btnFilter;
+    ImageButton btnCreate, btnFilter, btnDropdown;
     RecyclerView rvRooms;
+    RelativeLayout rlFilter;
+    EditText etSearch;
+
     RoomsAdapter adapter;
     List<Room> rooms;
     public List<String> allTags;
@@ -47,6 +53,7 @@ public class RoomsActivity extends AppCompatActivity
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     MultiSelectionSpinner spinner;
+    List<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,10 +68,19 @@ public class RoomsActivity extends AppCompatActivity
         selectedTags = new ArrayList<>();
         tagsToRooms = new HashMap<>();
         rooms = new ArrayList<>();
+        users = new ArrayList<>();
         swipeContainer = findViewById(R.id.swipeContainer);
         btnCreate = findViewById(R.id.btnCreate);
         btnFilter = findViewById(R.id.btnFilter);
+        btnDropdown = findViewById(R.id.btnDropdown);
+        rlFilter = findViewById(R.id.rlFilter);
+        etSearch = findViewById(R.id.etSearch);
         spinner = findViewById(R.id.spinner);
+
+        btnCreate.setOnClickListener(this);
+        btnFilter.setOnClickListener(this);
+        btnDropdown.setOnClickListener(this);
+
         // set up recycler view --> create adapter --> setup layout manager --> connect rv
         rvRooms = findViewById(R.id.rvRooms);
         adapter = new RoomsAdapter(this, rooms);
@@ -73,6 +89,8 @@ public class RoomsActivity extends AppCompatActivity
         rvRooms.setLayoutManager(gridLayoutManager);
         queryRooms();
 
+        allTags.add(0, "chat enabled");
+        allTags.add(1, "chat disabled");
         spinner.setItems(allTags);
         spinner.setHint("apply a filter!");
         spinner.setOnItemSelectedListener(new MultiSelectionSpinner.OnItemSelectedListener()
@@ -103,39 +121,20 @@ public class RoomsActivity extends AppCompatActivity
                 spinner.setItems(allTags);
             }
         });
-        btnFilter.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.i(TAG, "btnFilter on click");
-                if (!selectedTags.isEmpty())
-                    filterRooms();
-                else
-                {
-                    rooms.clear();
-                    queryRooms();
-                }
-            }
-        });
-        btnCreate.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent i = new Intent(RoomsActivity.this, CreateActivity.class);
-                i.putExtra("allTags", Parcels.wrap(allTags));
-                startActivity(i);
-            }
-        });
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
         {
             @Override
             public void onRefresh()
             {
                 adapter.clear();
-                if (!selectedTags.isEmpty())
-                    filterRooms();
+                String search = etSearch.getText().toString();
+                if (!selectedTags.isEmpty() || !search.isEmpty())
+                {
+                    if (!selectedTags.isEmpty())
+                        filterTags();
+                    if (!search.isEmpty())
+                        filterSearch(search);
+                }
                 else
                     queryRooms();
                 swipeContainer.setRefreshing(false);
@@ -150,6 +149,70 @@ public class RoomsActivity extends AppCompatActivity
             }
         };
         rvRooms.addOnScrollListener(scrollListener);
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        if (v.getId() == btnFilter.getId())
+        {
+            Log.i(TAG, "btnFilter on click");
+            String search = etSearch.getText().toString();
+            if (!selectedTags.isEmpty())
+                filterTags();
+            else if (!search.isEmpty())
+            {
+                filterSearch(search);
+            }
+            else
+            {
+                rooms.clear();
+                queryRooms();
+            }
+        }
+        if (v.getId() == btnCreate.getId())
+        {
+            Intent i = new Intent(RoomsActivity.this, CreateActivity.class);
+            i.putExtra("allTags", Parcels.wrap(allTags));
+            startActivity(i);
+        }
+        if (v.getId() == btnDropdown.getId())
+        {
+            if (rlFilter.getVisibility() == View.GONE)
+            {
+                rlFilter.setVisibility(View.VISIBLE);
+                btnDropdown.setImageResource(R.drawable.ic_round_keyboard_arrow_up);
+            }
+            else
+            {
+                rlFilter.setVisibility(View.GONE);
+                btnDropdown.setImageResource(R.drawable.ic_round_keyboard_arrow_down);
+            }
+        }
+    }
+
+    private void filterSearch(String search)
+    {
+        Log.i(TAG, "entered filterSearch");
+        List<Room> filtered = new ArrayList<>();
+        for (Room room : rooms)
+        {
+            if (room.getName().contains(search))
+                filtered.add(room);
+            for (User user : room.getUsers())
+            {
+                try
+                {
+                    if (user.fetchIfNeeded().getUsername().equals(search))
+                        filtered.add(room);
+                }
+                catch (ParseException e)
+                { e.printStackTrace(); }
+            }
+        }
+        adapter.clear();
+        rooms.addAll(filtered);
+        adapter.notifyDataSetChanged();
     }
 
     private void filterChat(boolean enabled)
@@ -174,7 +237,7 @@ public class RoomsActivity extends AppCompatActivity
         });
     }
 
-    private void filterRooms()
+    private void filterTags()
     {
         Log.i(TAG, "entered filterRooms()");
         rooms.clear();
@@ -238,8 +301,6 @@ public class RoomsActivity extends AppCompatActivity
                 Set<String> distinctTags = new HashSet<>(allTags);
                 allTags.clear();
                 allTags.addAll(distinctTags);
-                allTags.add("chat enabled");
-                allTags.add("chat disabled");
             }
         });
     }
