@@ -12,6 +12,7 @@ public class User extends ParseUser
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_PFP = "profilePic";
+    public static final String KEY_COLOR = "color";
 
     public String getName() { return getString(KEY_NAME); }
     public void setName(String name) { put(KEY_NAME, name); }
@@ -27,4 +28,7 @@ public class User extends ParseUser
 
     public ParseFile getProfile() { return getParseFile(KEY_PFP); }
     public void setProfile(ParseFile profile) { put(KEY_PFP, profile); }
+
+    public int getColor() { return getInt(KEY_COLOR); }
+    public void setColor(int color) { put(KEY_COLOR, color); }
 }

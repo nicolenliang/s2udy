@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
@@ -36,6 +37,7 @@ import com.parse.SignUpCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class SignupActivity extends AppCompatActivity
 {
@@ -145,6 +147,7 @@ public class SignupActivity extends AppCompatActivity
         user.setEmail(email);
         user.setPassword(password);
         user.setProfile(profile);
+        user.setColor(randomColor());
         user.signUpInBackground(new SignUpCallback()
         {
             @Override
@@ -167,6 +170,15 @@ public class SignupActivity extends AppCompatActivity
         Intent i = new Intent(SignupActivity.this, MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    private int randomColor()
+    {
+        Random random = new Random();
+        int r = random.nextInt(255);
+        int g = random.nextInt(255);
+        int b = random.nextInt(255);
+        return Color.rgb(r, g, b);
     }
 
     private ParseFile bitmapToParsefile(Bitmap bitmap)
