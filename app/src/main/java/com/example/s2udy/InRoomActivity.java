@@ -18,13 +18,18 @@ import android.widget.Toast;
 import com.davidmiguel.dragtoclose.DragToClose;
 import com.example.s2udy.adapters.PageAdapter;
 import com.example.s2udy.models.Room;
+import com.example.s2udy.models.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -33,11 +38,12 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     public static final String TAG = "InRoomActivity";
     public Room room;
     Toolbar toolbar;
-    TextView tvTitle, tvHost, tvDescription, tvLink;
+    TextView tvTitle, tvHost, tvUsers, tvDescription, tvLink;
     CardView cvTimer, cvList, cvChat, cvMusic;
     public ViewPager2 viewPager;
     TabLayout tabLayout;
     DragToClose dragToClose;
+    List<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,6 +56,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
 
         tvTitle = findViewById(R.id.tvTitle);
         tvHost = findViewById(R.id.tvHost);
+        tvUsers = findViewById(R.id.tvUsers);
         tvDescription = findViewById(R.id.tvDescription);
         tvLink = findViewById(R.id.tvLink);
         cvTimer = findViewById(R.id.cvTimer);
@@ -62,6 +69,17 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
         tvTitle.setText(room.getName());
         tvHost.setText("host: " + room.getHost().getUsername());
+
+        List<String> usernames = new ArrayList<>();
+        for (User user : room.getUsers())
+        {
+            try
+            { usernames.add(user.fetchIfNeeded().getUsername()); }
+            catch (ParseException e)
+            { e.printStackTrace(); }
+        }
+        tvUsers.setText("in room: " + usernames.toString());
+
         tvDescription.setText(room.getDescription());
         tvLink.setText(room.getZoom());
 
@@ -120,6 +138,37 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         cvList.setOnClickListener(this);
         cvChat.setOnClickListener(this);
         cvMusic.setOnClickListener(this);
+
+        users = room.getUsers();
+        users.add((User) User.getCurrentUser());
+        saveUsers();
+    }
+
+    private void saveUsers()
+    {
+        room.setUsers(users);
+        room.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "saveUsers() error in saving", e);
+                    return;
+                }
+                Log.i(TAG, "saveUsers() successful");
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+
+        users.remove((User) User.getCurrentUser());
+        saveUsers();
     }
 
     @Override

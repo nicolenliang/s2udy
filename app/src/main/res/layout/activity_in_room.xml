@@ -30,12 +30,24 @@
         android:text="host" />
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvUsers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvHost"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
+        android:ellipsize="middle"
+        android:ems="15"
+        android:singleLine="true"
+        tools:text="username, username, username," />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvUsers"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:text="description \n description"
         android:textSize="16sp" />
 
@@ -182,7 +194,18 @@
             android:layout_alignParentStart="false"
             android:layout_alignParentTop="false"
             android:layout_marginBottom="-50dp"
-            android:visibility="gone" />
+            android:visibility="gone">
+
+        </androidx.viewpager2.widget.ViewPager2>
+
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="150dp"
+            android:visibility="gone">
+
+        </me.relex.circleindicator.CircleIndicator3>
 
     </com.davidmiguel.dragtoclose.DragToClose>
 
@@ -193,11 +216,5 @@
         android:layout_alignParentBottom="true"
         android:clickable="true"
         android:focusable="true" />
-
-    <me.relex.circleindicator.CircleIndicator3
-        android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="150dp" />
 
 </RelativeLayout>
