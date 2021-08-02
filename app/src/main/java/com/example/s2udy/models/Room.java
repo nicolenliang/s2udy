@@ -19,6 +19,7 @@ public class Room extends ParseObject
     public static final String KEY_MUSIC = "music";
     public static final String KEY_ZOOM = "zoom";
     public static final String KEY_TAGS = "tags";
+    public static final String KEY_USERS = "users";
 
     public String getId() { return getString(KEY_ID); }
 
@@ -48,4 +49,7 @@ public class Room extends ParseObject
 
     public List<String> getTags() { return getList(KEY_TAGS); }
     public void setTags(List<String> tags) { put(KEY_TAGS, tags); }
+
+    public List<User> getUsers() { return getList(KEY_USERS); }
+    public void setUsers(List<User> users) { put(KEY_USERS, users); }
 }
