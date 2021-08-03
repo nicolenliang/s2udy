@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -19,6 +20,7 @@ public class LoginActivity extends AppCompatActivity
 {
     public static final String TAG = "LoginActivity";
     EditText etUsername, etPassword;
+    TextView tvTitle;
     Button btnLogin, btnSignup;
 
     @Override
@@ -29,8 +31,9 @@ public class LoginActivity extends AppCompatActivity
 
         // check if user is already logged in; if so, skip this screen and go to main screen
         if (ParseUser.getCurrentUser() != null)
-            goMainActivity();
+            goRoomsActivity();
 
+        tvTitle = findViewById(R.id.tvTitle);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -71,15 +74,15 @@ public class LoginActivity extends AppCompatActivity
                     Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(LoginActivity.this, "login " + user.getUsername() + " successful!", Toast.LENGTH_SHORT).show();
-                goMainActivity();
+                Toast.makeText(LoginActivity.this, "welcome back, " + user.getUsername() + "!", Toast.LENGTH_SHORT).show();
+                goRoomsActivity();
             }
         });
     }
 
-    private void goMainActivity()
+    private void goRoomsActivity()
     {
-        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        Intent i = new Intent(LoginActivity.this, RoomsActivity.class);
         startActivity(i);
         finish(); // so user cannot swipe back to login screen
     }

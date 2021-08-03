@@ -63,6 +63,7 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         allTags = new ArrayList<>();
         selectedTags = new ArrayList<>();

@@ -28,7 +28,7 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator3;
@@ -41,6 +41,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     TextView tvTitle, tvHost, tvUsers, tvDescription, tvLink;
     CardView cvTimer, cvList, cvChat, cvMusic;
     public ViewPager2 viewPager;
+    CircleIndicator3 indicator;
     TabLayout tabLayout;
     DragToClose dragToClose;
     List<User> users;
@@ -53,6 +54,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         tvTitle = findViewById(R.id.tvTitle);
         tvHost = findViewById(R.id.tvHost);
@@ -67,10 +69,14 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         dragToClose = findViewById(R.id.dragToClose);
 
         room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
+
+        users = room.getUsers();
+        users.add((User) User.getCurrentUser());
+        saveUsers();
+
         tvTitle.setText(room.getName());
         tvHost.setText("host: " + room.getHost().getUsername());
-
-        List<String> usernames = new ArrayList<>();
+        HashSet<String> usernames = new HashSet<>();
         for (User user : room.getUsers())
         {
             try
@@ -79,13 +85,12 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             { e.printStackTrace(); }
         }
         tvUsers.setText("in room: " + usernames.toString());
-
         tvDescription.setText(room.getDescription());
         tvLink.setText(room.getZoom());
 
         PageAdapter pAdapter = new PageAdapter(InRoomActivity.this, room);
         viewPager.setAdapter(pAdapter);
-        CircleIndicator3 indicator = findViewById(R.id.indicator);
+        indicator = findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         new TabLayoutMediator(tabLayout, viewPager, (TabLayoutMediator.TabConfigurationStrategy) (tab, position) ->
@@ -112,6 +117,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             public void onTabSelected(TabLayout.Tab tab)
             {
                 viewPager.setVisibility(View.VISIBLE);
+                indicator.setVisibility(View.VISIBLE);
                 viewPager.setCurrentItem(tab.getPosition(), true);
                 dragToClose.openDraggableContainer();
             }
@@ -125,10 +131,14 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             public void onTabReselected(TabLayout.Tab tab)
             {
                 if (viewPager.getVisibility() == View.VISIBLE)
+                {
                     viewPager.setVisibility(View.GONE);
+                    indicator.setVisibility(View.GONE);
+                }
                 else
                 {
                     viewPager.setVisibility(View.VISIBLE);
+                    indicator.setVisibility(View.VISIBLE);
                     dragToClose.openDraggableContainer();
                 }
             }
@@ -138,10 +148,6 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         cvList.setOnClickListener(this);
         cvChat.setOnClickListener(this);
         cvMusic.setOnClickListener(this);
-
-        users = room.getUsers();
-        users.add((User) User.getCurrentUser());
-        saveUsers();
     }
 
     private void saveUsers()
@@ -175,6 +181,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v)
     {
         viewPager.setVisibility(View.VISIBLE);
+        indicator.setVisibility(View.VISIBLE);
         dragToClose.openDraggableContainer();
 
         switch(v.getId())

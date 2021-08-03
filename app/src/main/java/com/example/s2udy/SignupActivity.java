@@ -27,10 +27,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.s2udy.models.User;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
@@ -47,7 +45,7 @@ public class SignupActivity extends AppCompatActivity
     private File photoFile;
     private static final String photoFileName = "photo.jpg";
     public User user = new User();
-    TextView tvInformation;
+    TextView tvTitle, tvInformation;
     EditText etName, etUsername, etEmail, etPassword;
     ImageView ivProfile;
     Button btnSignup, btnLogin, btnProfile;
@@ -58,6 +56,7 @@ public class SignupActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        tvTitle = findViewById(R.id.tvTitle);
         tvInformation = findViewById(R.id.tvInformation);
         etName = findViewById(R.id.etName);
         etUsername = findViewById(R.id.etUsername);
@@ -159,15 +158,15 @@ public class SignupActivity extends AppCompatActivity
                     Toast.makeText(SignupActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(SignupActivity.this, "sign up successful!", Toast.LENGTH_SHORT).show();
-                goMainActivity();
+                Toast.makeText(SignupActivity.this, "welcome, " + username + "!", Toast.LENGTH_SHORT).show();
+                goRoomsActivity();
             }
         });
     }
 
-    private void goMainActivity()
+    private void goRoomsActivity()
     {
-        Intent i = new Intent(SignupActivity.this, MainActivity.class);
+        Intent i = new Intent(SignupActivity.this, RoomsActivity.class);
         startActivity(i);
         finish();
     }
