@@ -94,6 +94,7 @@
                 android:src="@drawable/ic_baseline_filter" />
 
         </RelativeLayout>
+
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

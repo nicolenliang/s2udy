@@ -96,6 +96,7 @@
                     android:textSize="24sp" />
 
             </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -122,6 +123,7 @@
                     android:textSize="24sp" />
 
             </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -148,6 +150,7 @@
                     android:textSize="24sp" />
 
             </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView

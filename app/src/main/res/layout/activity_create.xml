@@ -76,6 +76,7 @@
             android:ems="10"
             android:hint="create tags"
             android:inputType="text" />
+
     </LinearLayout>
 
     <EditText

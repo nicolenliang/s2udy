@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -89,7 +88,7 @@ public class ListFragment extends Fragment
 
         TabLayout tabLayout = requireActivity().findViewById(R.id.tabLayout);
         CircleIndicator3 indicator = requireActivity().findViewById(R.id.indicator);
-        // keyboard listener: if up, disappear navbar
+        // keyboard listener: if up, disappear tablayout
         KeyboardVisibilityEvent.setEventListener(requireActivity(), new KeyboardVisibilityEventListener()
         {
             @Override

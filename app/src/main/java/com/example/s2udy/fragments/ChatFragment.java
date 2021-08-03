@@ -103,7 +103,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener
         catch (URISyntaxException e)
         { e.printStackTrace(); }
 
-        ParseQuery<Message> query = ParseQuery.getQuery("Message");
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(query);
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (newQuery, object) ->
         {

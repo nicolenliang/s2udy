@@ -18,7 +18,6 @@
         app:cardBackgroundColor="#C3C3C3"
         app:cardCornerRadius="50dp">
 
-
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"

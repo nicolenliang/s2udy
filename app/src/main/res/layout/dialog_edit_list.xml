@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:padding="10dp" >
 
-
     <EditText
         android:id="@+id/etItem"
         android:layout_width="wrap_content"

@@ -66,6 +66,7 @@
                 android:enabled="false"
                 android:inputType="text"
                 tools:text="Name" />
+
         </TableRow>
 
         <TableRow
@@ -90,6 +91,7 @@
                 android:enabled="false"
                 android:inputType="text"
                 tools:text="Username" />
+
         </TableRow>
 
         <TableRow
@@ -114,6 +116,7 @@
                 android:enabled="false"
                 android:inputType="textEmailAddress"
                 tools:text="Email" />
+
         </TableRow>
 
         <TableRow
@@ -138,6 +141,7 @@
                 android:inputType="textPassword"
                 tools:text="Password" />
         </TableRow>
+
     </TableLayout>
 
     <Button

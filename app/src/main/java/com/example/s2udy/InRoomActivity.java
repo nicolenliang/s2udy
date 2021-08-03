@@ -37,10 +37,10 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
 {
     public static final String TAG = "InRoomActivity";
     public Room room;
+    public ViewPager2 viewPager;
     Toolbar toolbar;
     TextView tvTitle, tvHost, tvUsers, tvDescription, tvLink;
     CardView cvTimer, cvList, cvChat, cvMusic;
-    public ViewPager2 viewPager;
     CircleIndicator3 indicator;
     TabLayout tabLayout;
     DragToClose dragToClose;
@@ -172,7 +172,6 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     public void onBackPressed()
     {
         super.onBackPressed();
-
         users.remove((User) User.getCurrentUser());
         saveUsers();
     }

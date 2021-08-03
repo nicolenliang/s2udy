@@ -40,4 +40,5 @@
         android:paddingVertical="12dp"
         android:textSize="14sp"
         tools:text="someone else's message" />
+
 </RelativeLayout>

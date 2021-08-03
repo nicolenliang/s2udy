@@ -1,8 +1,6 @@
 package com.example.s2udy.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import com.bumptech.glide.Glide;
 import com.example.s2udy.R;
 import com.example.s2udy.fragments.MusicFragment;
 import com.example.s2udy.models.Song;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 
