@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:tint="@color/colorPrimaryVariant"
+        app:srcCompat="@drawable/s2udy_logo" />
+
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="wrap_content"
@@ -14,6 +24,7 @@
         android:layout_below="@+id/etName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_rectangle"
         android:ems="10"
         android:hint="username"
         android:inputType="textPersonName" />
@@ -25,6 +36,7 @@
         android:layout_below="@+id/etUsername"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_rectangle"
         android:ems="10"
         android:hint="email"
         android:inputType="textEmailAddress" />
@@ -36,6 +48,7 @@
         android:layout_below="@+id/etEmail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_rectangle"
         android:ems="10"
         android:hint="password"
         android:inputType="textPassword" />
@@ -52,12 +65,11 @@
 
     <Button
         android:id="@+id/btnSignup"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
         android:text="sign up"
         android:textColor="#FFFFFF" />
 
@@ -68,6 +80,7 @@
         android:layout_below="@+id/tvInformation"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_rectangle"
         android:ems="10"
         android:hint="name"
         android:inputType="textPersonName" />
@@ -76,9 +89,9 @@
         android:id="@+id/ivProfile"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         app:srcCompat="@drawable/ic_baseline_account_circle" />
 
     <Button
@@ -88,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivProfile"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="-10dp"
         android:text="add profile photo"
         android:textColor="@android:color/tertiary_text_dark" />
 
@@ -98,9 +111,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnProfile"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_med"
         android:text="USER INFORMATION"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:text="SIGN UP"
+        android:textSize="34sp" />
 
 </RelativeLayout>

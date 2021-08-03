@@ -39,6 +39,7 @@
         android:ellipsize="middle"
         android:ems="15"
         android:singleLine="true"
+        android:textAlignment="center"
         tools:text="username, username, username," />
 
     <TextView
@@ -61,14 +62,14 @@
         android:autoLink="all"
         android:linksClickable="true"
         android:textAlignment="center"
-        tools:text="zoom.link.com" />
+        tools:text="zoom.link.com\nzoom.link.com" />
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDescription"
+        android:layout_below="@id/tvLink"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         app:columnCount="2"
         app:rowCount="2">
 

@@ -61,12 +61,12 @@
 
             <com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner
                 android:id="@+id/spinner"
-                android:layout_width="155dp"
+                android:layout_width="165dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="0dp"
                 android:hint="select tags"
                 android:spinnerMode="dropdown" />
 

@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="100dp"
-            android:ems="10"
+            android:ems="7"
             android:hint="hh:mm:ss"
             android:inputType="time"
             android:textAlignment="center" />
