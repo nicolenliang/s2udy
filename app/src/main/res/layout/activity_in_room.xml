@@ -187,29 +187,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
-        app:dragtoclose_draggableContainer="@+id/viewPager"
-        app:dragtoclose_draggableView="@+id/viewPager"
+        android:visibility="gone"
+        app:dragtoclose_draggableContainer="@+id/rlViewpager"
+        app:dragtoclose_draggableView="@+id/rlViewpager"
         app:dragtoclose_finishActivity="false">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentTop="false"
-            android:layout_marginBottom="-50dp"
-            android:visibility="gone">
+        <RelativeLayout
+            android:id="@+id/rlViewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        </androidx.viewpager2.widget.ViewPager2>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
+                android:layout_marginBottom="-50dp" />
 
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="150dp"
-            android:visibility="gone">
+            <me.relex.circleindicator.CircleIndicator3
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="150dp" />
 
-        </me.relex.circleindicator.CircleIndicator3>
+        </RelativeLayout>
 
     </com.davidmiguel.dragtoclose.DragToClose>
 

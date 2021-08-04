@@ -55,6 +55,8 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_round_keyboard_arrow_left);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvTitle = findViewById(R.id.tvTitle);
         tvHost = findViewById(R.id.tvHost);
@@ -116,10 +118,9 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTabSelected(TabLayout.Tab tab)
             {
-                viewPager.setVisibility(View.VISIBLE);
-                indicator.setVisibility(View.VISIBLE);
-                viewPager.setCurrentItem(tab.getPosition(), true);
                 dragToClose.openDraggableContainer();
+                dragToClose.setVisibility(View.VISIBLE);
+                viewPager.setCurrentItem(tab.getPosition(), true);
             }
 
             @Override
@@ -130,16 +131,15 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTabReselected(TabLayout.Tab tab)
             {
-                if (viewPager.getVisibility() == View.VISIBLE)
+                if (dragToClose.getVisibility() == View.VISIBLE)
                 {
-                    viewPager.setVisibility(View.GONE);
-                    indicator.setVisibility(View.GONE);
+                    dragToClose.closeDraggableContainer();
+                    dragToClose.setVisibility(View.GONE);
                 }
                 else
                 {
-                    viewPager.setVisibility(View.VISIBLE);
-                    indicator.setVisibility(View.VISIBLE);
                     dragToClose.openDraggableContainer();
+                    dragToClose.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -179,9 +179,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v)
     {
-        viewPager.setVisibility(View.VISIBLE);
-        indicator.setVisibility(View.VISIBLE);
-        dragToClose.openDraggableContainer();
+        dragToClose.setVisibility(View.VISIBLE);
 
         switch(v.getId())
         {
@@ -204,6 +202,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
+        dragToClose.openDraggableContainer();
     }
 
     @Override
@@ -216,24 +215,25 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        if (item.getItemId() == R.id.action_logout)
+        switch(item.getItemId())
         {
-            ParseUser.logOutInBackground(new LogOutCallback()
-            {
-                @Override
-                public void done(ParseException e)
+            case R.id.action_logout:
+                ParseUser.logOutInBackground(new LogOutCallback()
                 {
-                    Intent i = new Intent(InRoomActivity.this, LoginActivity.class);
-                    startActivity(i);
-                    finish();
-                    Toast.makeText(InRoomActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        if (item.getItemId() == R.id.action_profile)
-        {
-            Intent i = new Intent(InRoomActivity.this, ProfileActivity.class);
-            startActivity(i);
+                    @Override
+                    public void done(ParseException e)
+                    {
+                        Intent i = new Intent(InRoomActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                        Toast.makeText(InRoomActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            case R.id.action_profile:
+                Intent i = new Intent(InRoomActivity.this, ProfileActivity.class);
+                startActivity(i);
+            case android.R.id.home:
+                onBackPressed();
         }
         return true;
     }
