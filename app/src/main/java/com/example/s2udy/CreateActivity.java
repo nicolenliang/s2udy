@@ -1,10 +1,14 @@
 package com.example.s2udy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.s2udy.models.Room;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -29,11 +34,12 @@ public class CreateActivity extends AppCompatActivity
     public static final String TAG = "CreateActivity";
     public List<String> tags, allTags;
     List<String> createdTags, selectedTags;
-    EditText etName, etDescription, etTags, etMusic, etZoom;
+    EditText etName, etDescription, etPasscode, etTags, etMusic, etZoom;
     TextView tvTitle, tvTags, tvRequired;
     Switch switchChat;
     Button btnCreate;
     MultiSelectionSpinner spinner;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,11 +47,18 @@ public class CreateActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
+        toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_round_keyboard_arrow_left);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         allTags = Parcels.unwrap(getIntent().getParcelableExtra("allTags"));
         tags = new ArrayList<>();
 
         etName = findViewById(R.id.etName);
         etDescription = findViewById(R.id.etDescription);
+        etPasscode = findViewById(R.id.etPasscode);
         etTags = findViewById(R.id.etTags);
         etMusic = findViewById(R.id.etMusic);
         etZoom = findViewById(R.id.etZoom);
@@ -63,14 +76,19 @@ public class CreateActivity extends AppCompatActivity
             {
                 String name = etName.getText().toString();
                 String description = etDescription.getText().toString();
-                String spotify = etMusic.getText().toString();
-                if (name.isEmpty() || description.isEmpty() || spotify.isEmpty())
+                String passcode = etPasscode.getText().toString();
+                String musicLink = etMusic.getText().toString();
+                String zoomLink = etZoom.getText().toString();;
+
+                if (name.isEmpty() || description.isEmpty() || musicLink.isEmpty())
                 {
                     Toast.makeText(CreateActivity.this, "required fields cannot be empty!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 Boolean chat = switchChat.isChecked();
                 ParseUser currentUser = ParseUser.getCurrentUser();
+
                 String tagsUnparsed = etTags.getText().toString(); // getting new created tags
                 createdTags = new ArrayList<>(Arrays.asList(tagsUnparsed.toLowerCase().split("\\s*, \\s*")));
                 for (String tag : allTags)
@@ -79,10 +97,8 @@ public class CreateActivity extends AppCompatActivity
                 Log.i(TAG, "createdTags: " + createdTags + "; selectedTags: " + selectedTags);
                 tags.addAll(createdTags);
                 tags.addAll(selectedTags);
-                String musicLink = etMusic.getText().toString();
-                String zoomLink = etZoom.getText().toString();;
 
-                Room room = createRoom(name, description, chat, currentUser, tags, musicLink, zoomLink);
+                Room room = createRoom(name, description, passcode, chat, currentUser, tags, musicLink, zoomLink);
                 Intent i = new Intent(CreateActivity.this, InRoomActivity.class);
                 i.putExtra(Room.class.getSimpleName(), Parcels.wrap(room));
                 startActivity(i);
@@ -114,11 +130,12 @@ public class CreateActivity extends AppCompatActivity
         });
     }
 
-    private Room createRoom(String name, String description, Boolean chat, ParseUser currentUser, List<String> tags, String musicLink, String zoomLink)
+    private Room createRoom(String name, String description, String passcode, Boolean chat, ParseUser currentUser, List<String> tags, String musicLink, String zoomLink)
     {
         Room room = new Room();
         room.setName(name);
         room.setDescription(description);
+        room.setPasscode(passcode);
         room.setChatEnabled(chat);
         room.setHost(currentUser);
         room.setTags(tags);
@@ -139,5 +156,38 @@ public class CreateActivity extends AppCompatActivity
         });
         finish();
         return room;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.action_logout:
+                ParseUser.logOutInBackground(new LogOutCallback()
+                {
+                    @Override
+                    public void done(ParseException e)
+                    {
+                        Intent i = new Intent(CreateActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                        Toast.makeText(CreateActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            case R.id.action_profile:
+                Intent i = new Intent(CreateActivity.this, ProfileActivity.class);
+                startActivity(i);
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return true;
     }
 }
