@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,7 @@ import com.example.s2udy.adapters.RoomsAdapter;
 import com.example.s2udy.models.Room;
 import com.example.s2udy.models.User;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -40,7 +43,7 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
 {
     public static final String TAG = "RoomsActivity";
     Toolbar toolbar;
-    ImageButton btnCreate, btnFilter, btnDropdown;
+    ImageButton btnCreate, btnFilter, btnSearch;
     RecyclerView rvRooms;
     RelativeLayout rlFilter;
     EditText etSearch;
@@ -73,18 +76,51 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
         swipeContainer = findViewById(R.id.swipeContainer);
         btnCreate = findViewById(R.id.btnCreate);
         btnFilter = findViewById(R.id.btnFilter);
-        btnDropdown = findViewById(R.id.btnDropdown);
+        btnSearch = findViewById(R.id.btnSearch);
         rlFilter = findViewById(R.id.rlFilter);
         etSearch = findViewById(R.id.etSearch);
         spinner = findViewById(R.id.spinner);
 
         btnCreate.setOnClickListener(this);
         btnFilter.setOnClickListener(this);
-        btnDropdown.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
+
+        // long click item to delete
+        RoomsAdapter.onLongClickListener longClickListener = new RoomsAdapter.onLongClickListener()
+        {
+            @Override
+            public void onItemLongClicked(int position)
+            {
+                User current = (User) ParseUser.getCurrentUser();
+                AlertDialog dialog = new AlertDialog.Builder(RoomsActivity.this)
+                        .setTitle("delete room?")
+                        .setPositiveButton("delete", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                if (current.getUsername().equals((rooms.get(position)).getHost().getUsername()))
+                                    deleteRoom(rooms.get(position));
+                                else
+                                    Toast.makeText(RoomsActivity.this, "only the host can delete a room!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                dialog.show();
+            }
+        };
 
         // set up recycler view --> create adapter --> setup layout manager --> connect rv
         rvRooms = findViewById(R.id.rvRooms);
-        adapter = new RoomsAdapter(this, rooms);
+        adapter = new RoomsAdapter(this, rooms, longClickListener);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rvRooms.setAdapter(adapter);
         rvRooms.setLayoutManager(gridLayoutManager);
@@ -92,6 +128,7 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
 
         allTags.add(0, "chat enabled");
         allTags.add(1, "chat disabled");
+        allTags.add(2, "private");
         spinner.setItems(allTags);
         spinner.setHint("apply a filter!");
         spinner.setOnItemSelectedListener(new MultiSelectionSpinner.OnItemSelectedListener()
@@ -105,12 +142,15 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
                     filterChat(true);
                 else if (selectedTag.equals("chat disabled"))
                     filterChat(false);
-                else
+                else if (selectedTag.equals("private"))
+                    filterPasscode();
+                else // selected tags
                 {
                     if (isSelected && !selectedTags.contains(selectedTag))
                         selectedTags.add(selectedTag);
                     else if (!isSelected && selectedTags.contains(selectedTag))
                         selectedTags.remove(selectedTag);
+                    filterTags();
                 }
             }
 
@@ -119,7 +159,9 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
             {
                 spinner.clear();
                 selectedTags.clear();
+                rooms.clear();
                 spinner.setItems(allTags);
+                queryRooms();
             }
         });
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
@@ -152,19 +194,35 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
         rvRooms.addOnScrollListener(scrollListener);
     }
 
+    private void filterPasscode()
+    {
+        ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
+        query.include(Room.KEY_HOST);
+        query.whereNotEqualTo(Room.KEY_PASSCODE, null);
+        query.findInBackground(new FindCallback<Room>()
+        {
+            @Override
+            public void done(List<Room> objects, ParseException e)
+            {
+                if (e != null)
+                    return;
+                adapter.clear();
+                rooms.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     @Override
     public void onClick(View v)
     {
-        if (v.getId() == btnFilter.getId())
+        if (v.getId() == btnSearch.getId())
         {
-            Log.i(TAG, "btnFilter on click");
+            Log.i(TAG, "btnSearch on click");
             String search = etSearch.getText().toString();
-            if (!selectedTags.isEmpty())
-                filterTags();
-            else if (!search.isEmpty())
-            {
+
+            if (!search.isEmpty())
                 filterSearch(search);
-            }
             else
             {
                 rooms.clear();
@@ -177,19 +235,33 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
             i.putExtra("allTags", Parcels.wrap(allTags));
             startActivity(i);
         }
-        if (v.getId() == btnDropdown.getId())
+        if (v.getId() == btnFilter.getId())
         {
             if (rlFilter.getVisibility() == View.GONE)
-            {
                 rlFilter.setVisibility(View.VISIBLE);
-                btnDropdown.setImageResource(R.drawable.ic_round_keyboard_arrow_up);
-            }
             else
-            {
                 rlFilter.setVisibility(View.GONE);
-                btnDropdown.setImageResource(R.drawable.ic_round_keyboard_arrow_down);
-            }
         }
+    }
+
+    private void deleteRoom(Room room)
+    {
+        ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
+        query.getInBackground(room.getObjectId(), new GetCallback<Room>()
+        {
+            @Override
+            public void done(Room object, ParseException e)
+            {
+                if (e != null)
+                    return;
+                object.deleteInBackground();
+                for (String tag : room.getTags())
+                    allTags.remove(tag);
+                Log.i(TAG, "deleteRoom() successful!");
+            }
+        });
+        Toast.makeText(RoomsActivity.this, "room \"" + room.getName() + "\" deleted!", Toast.LENGTH_SHORT).show();
+        rooms.remove(room);
     }
 
     private void filterSearch(String search)
@@ -344,24 +416,23 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        if (item.getItemId() == R.id.action_logout)
+        switch(item.getItemId())
         {
-            ParseUser.logOutInBackground(new LogOutCallback()
-            {
-                @Override
-                public void done(ParseException e)
+            case R.id.action_logout:
+                ParseUser.logOutInBackground(new LogOutCallback()
                 {
-                    Intent i = new Intent(RoomsActivity.this, LoginActivity.class);
-                    startActivity(i);
-                    finish();
-                    Toast.makeText(RoomsActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        if (item.getItemId() == R.id.action_profile)
-        {
-            Intent i = new Intent(RoomsActivity.this, ProfileActivity.class);
-            startActivity(i);
+                    @Override
+                    public void done(ParseException e)
+                    {
+                        Intent i = new Intent(RoomsActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                        Toast.makeText(RoomsActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            case R.id.action_profile:
+                Intent i = new Intent(RoomsActivity.this, ProfileActivity.class);
+                startActivity(i);
         }
         return true;
     }
