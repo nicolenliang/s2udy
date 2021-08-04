@@ -14,15 +14,25 @@
 
     <ImageButton
         android:id="@+id/btnCreate"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="77dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="15dp"
+        android:layout_toStartOf="@id/btnFilter"
         android:background="@null"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_baseline_add_circle_outline" />
+
+    <ImageButton
+        android:id="@+id/btnFilter"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_filter" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -39,18 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/btnDropdown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="0dp"
-            android:background="@null"
-            android:src="@drawable/ic_round_keyboard_arrow_down"
-            android:text="Button" />
 
         <RelativeLayout
             android:id="@+id/rlFilter"
@@ -61,37 +61,39 @@
 
             <com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner
                 android:id="@+id/spinner"
-                android:layout_width="165dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
                 android:hint="select tags"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/etSearch"
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_toStartOf="@+id/btnFilter"
+                android:layout_marginEnd="0dp"
                 android:layout_toEndOf="@+id/spinner"
                 android:ems="10"
                 android:hint="search"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textSize="16sp" />
 
             <ImageButton
-                android:id="@+id/btnFilter"
+                android:id="@+id/btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@+id/etSearch"
                 android:background="@null"
-                android:src="@drawable/ic_baseline_filter" />
+                app:srcCompat="@drawable/ic_round_search" />
 
         </RelativeLayout>
 
