@@ -14,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -85,9 +83,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener
         ibSend.setOnClickListener(this);
         RelativeLayout rlMessage = view.findViewById(R.id.rlMessage);
 
-        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
-        cvChat.startAnimation(bottomUp);
-
         messages = new ArrayList<>();
         rvChat = view.findViewById(R.id.rvChat);
         adapter = new ChatAdapter(getContext(), messages, ParseUser.getCurrentUser());
@@ -123,7 +118,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener
 
         TabLayout tabLayout = requireActivity().findViewById(R.id.tabLayout);
         CircleIndicator3 indicator = requireActivity().findViewById(R.id.indicator);
-
         // keyboard listener: if up, disappear navbar
         KeyboardVisibilityEvent.setEventListener(requireActivity(), new KeyboardVisibilityEventListener()
         {

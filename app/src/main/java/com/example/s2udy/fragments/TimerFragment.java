@@ -13,8 +13,6 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -61,9 +59,6 @@ public class TimerFragment extends Fragment
         tvTimer = view.findViewById(R.id.tvTimer);
         btnStartPause = view.findViewById(R.id.btnStartPause);
         btnReset = view.findViewById(R.id.btnReset);
-
-        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
-        cvTimer.startAnimation(bottomUp);
 
         // manually set text in case user leaves activity and comes back
         if (timerStarted && timerRunning)
