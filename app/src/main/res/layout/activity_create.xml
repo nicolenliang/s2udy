@@ -7,11 +7,17 @@
     android:isScrollContainer="true"
     tools:context=".CreateActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="CREATE ROOM"
@@ -23,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="room name*"
         android:inputType="text" />
@@ -34,9 +40,45 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="description*"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/etPasscode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="passcode"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/etMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etPasscode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="spotify link*"
+        android:inputType="none"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/etZoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etMusic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="other link"
         android:inputType="text" />
 
     <TextView
@@ -79,31 +121,6 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/etMusic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etDescription"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="spotify link*"
-        android:inputType="none"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true" />
-
-    <EditText
-        android:id="@+id/etZoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etMusic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="zoom link"
-        android:inputType="text" />
-
     <Switch
         android:id="@+id/switchChat"
         android:layout_width="wrap_content"
@@ -116,11 +133,11 @@
 
     <Button
         android:id="@+id/btnCreate"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/switchChat"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="create" />
 
     <TextView
