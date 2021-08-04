@@ -6,7 +6,7 @@
     android:padding="10dp" >
 
     <EditText
-        android:id="@+id/etItem"
+        android:id="@+id/etDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
