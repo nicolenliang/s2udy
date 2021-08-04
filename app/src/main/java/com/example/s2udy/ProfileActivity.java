@@ -1,7 +1,9 @@
 package com.example.s2udy;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 import android.app.AlertDialog;
@@ -17,6 +19,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,9 +31,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.s2udy.models.User;
 import com.parse.GetCallback;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -48,12 +54,19 @@ public class ProfileActivity extends AppCompatActivity
     EditText etName, etUsername, etEmail, etPassword;
     Button btnProfile, btnSave, btnEdit;
     ImageView ivProfile;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_round_keyboard_arrow_left);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvTitle = findViewById(R.id.tvTitle);
         tvName = findViewById(R.id.tvName);
@@ -283,5 +296,38 @@ public class ProfileActivity extends AppCompatActivity
         Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
         // Return result
         return rotatedBitmap;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.action_logout:
+                ParseUser.logOutInBackground(new LogOutCallback()
+                {
+                    @Override
+                    public void done(ParseException e)
+                    {
+                        Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                        Toast.makeText(ProfileActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            case R.id.action_profile:
+                Intent i = new Intent(ProfileActivity.this, ProfileActivity.class);
+                startActivity(i);
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return true;
     }
 }
