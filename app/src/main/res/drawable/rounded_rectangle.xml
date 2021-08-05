@@ -8,10 +8,10 @@
         android:color="@android:color/secondary_text_dark"
         android:width="1dp"/>
     <corners
-        android:bottomRightRadius="30dp"
-        android:bottomLeftRadius="30dp"
-        android:topLeftRadius="30dp"
-        android:topRightRadius="30dp" />
+        android:bottomRightRadius="150dp"
+        android:bottomLeftRadius="150dp"
+        android:topLeftRadius="150dp"
+        android:topRightRadius="150dp" />
     <padding
         android:bottom="10dp"
         android:left="10dp"

@@ -41,6 +41,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="75dp"
+        android:background="@drawable/rounded_rectangle"
         android:text="JOIN ROOMS"
         android:textSize="34sp" />
 
