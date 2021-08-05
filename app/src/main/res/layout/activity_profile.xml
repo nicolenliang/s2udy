@@ -159,6 +159,7 @@
         android:layout_below="@+id/btnEdit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_rectangle"
         android:text="save" />
 
     <Button
