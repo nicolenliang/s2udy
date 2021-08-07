@@ -69,6 +69,29 @@ public class CreateActivity extends AppCompatActivity
         btnCreate = findViewById(R.id.btnCreate);
         spinner = findViewById(R.id.multiSelectSpinner);
 
+        spinner.setItems(allTags);
+        selectedTags = new ArrayList<>();
+        spinner.setOnItemSelectedListener(new MultiSelectionSpinner.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(View view, boolean isSelected, int position)
+            {
+                String selectedTag = allTags.get(position);
+                Log.i(TAG, "item selected: " + selectedTag + "; isSelected: " + isSelected);
+                if (isSelected && !selectedTags.contains(selectedTag))
+                    selectedTags.add(selectedTag);
+                else if (!isSelected && selectedTags.contains(selectedTag))
+                    selectedTags.remove(selectedTag);
+            }
+
+            @Override
+            public void onSelectionCleared()
+            {
+                spinner.clear();
+                selectedTags.clear();
+                spinner.setItems(allTags);
+            }
+        });
         btnCreate.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -98,39 +121,14 @@ public class CreateActivity extends AppCompatActivity
                 tags.addAll(createdTags);
                 tags.addAll(selectedTags);
 
-                Room room = createRoom(name, description, passcode, chat, currentUser, tags, musicLink, zoomLink);
-                Intent i = new Intent(CreateActivity.this, InRoomActivity.class);
-                i.putExtra(Room.class.getSimpleName(), Parcels.wrap(room));
+                createRoom(name, description, passcode, chat, currentUser, tags, musicLink, zoomLink);
+                Intent i = new Intent(CreateActivity.this, RoomsActivity.class);
                 startActivity(i);
-            }
-        });
-
-        spinner.setItems(allTags);
-        selectedTags = new ArrayList<>();
-        spinner.setOnItemSelectedListener(new MultiSelectionSpinner.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(View view, boolean isSelected, int position)
-            {
-                String selectedTag = allTags.get(position);
-                Log.i(TAG, "item selected: " + selectedTag + "; isSelected: " + isSelected);
-                if (isSelected && !selectedTags.contains(selectedTag))
-                    selectedTags.add(selectedTag);
-                else if (!isSelected && selectedTags.contains(selectedTag))
-                    selectedTags.remove(selectedTag);
-            }
-
-            @Override
-            public void onSelectionCleared()
-            {
-                spinner.clear();
-                selectedTags.clear();
-                spinner.setItems(allTags);
             }
         });
     }
 
-    private Room createRoom(String name, String description, String passcode, Boolean chat, ParseUser currentUser, List<String> tags, String musicLink, String zoomLink)
+    private void createRoom(String name, String description, String passcode, Boolean chat, ParseUser currentUser, List<String> tags, String musicLink, String zoomLink)
     {
         Room room = new Room();
         room.setName(name);
@@ -141,6 +139,7 @@ public class CreateActivity extends AppCompatActivity
         room.setTags(tags);
         room.setMusic(musicLink);
         room.setZoom(zoomLink);
+        room.setUsers(new ArrayList<>());
         room.saveInBackground(new SaveCallback()
         {
             @Override
@@ -155,7 +154,6 @@ public class CreateActivity extends AppCompatActivity
             }
         });
         finish();
-        return room;
     }
 
     @Override
@@ -182,11 +180,14 @@ public class CreateActivity extends AppCompatActivity
                         Toast.makeText(CreateActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
                     }
                 });
+                break;
             case R.id.action_profile:
                 Intent i = new Intent(CreateActivity.this, ProfileActivity.class);
                 startActivity(i);
+                break;
             case android.R.id.home:
                 onBackPressed();
+                break;
         }
         return true;
     }

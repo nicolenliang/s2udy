@@ -28,6 +28,7 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -72,9 +73,9 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
 
         room = Parcels.unwrap(getIntent().getParcelableExtra(Room.class.getSimpleName()));
 
-        users = room.getUsers();
+        users = new ArrayList<>();
         users.add((User) User.getCurrentUser());
-        saveUsers();
+        updateUsers();
 
         tvTitle.setText(room.getName());
         tvHost.setText("host: " + room.getHost().getUsername());
@@ -150,7 +151,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
         cvMusic.setOnClickListener(this);
     }
 
-    private void saveUsers()
+    private void updateUsers()
     {
         room.setUsers(users);
         room.saveInBackground(new SaveCallback()
@@ -173,7 +174,7 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
     {
         super.onBackPressed();
         users.remove((User) User.getCurrentUser());
-        saveUsers();
+        updateUsers();
     }
 
     @Override
@@ -229,11 +230,14 @@ public class InRoomActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText(InRoomActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
                     }
                 });
+                break;
             case R.id.action_profile:
                 Intent i = new Intent(InRoomActivity.this, ProfileActivity.class);
                 startActivity(i);
+                break;
             case android.R.id.home:
                 onBackPressed();
+                break;
         }
         return true;
     }

@@ -143,7 +143,6 @@ public class ProfileActivity extends AppCompatActivity
                 ParseFile profile = bitmapToParsefile(bitmap);
 
                 saveInfo(name, username, email, password, profile);
-                finish();
             }
         });
     }
@@ -322,11 +321,14 @@ public class ProfileActivity extends AppCompatActivity
                         Toast.makeText(ProfileActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
                     }
                 });
+                break;
             case R.id.action_profile:
                 Intent i = new Intent(ProfileActivity.this, ProfileActivity.class);
                 startActivity(i);
+                break;
             case android.R.id.home:
                 onBackPressed();
+                break;
         }
         return true;
     }
