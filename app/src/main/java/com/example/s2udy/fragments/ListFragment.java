@@ -1,5 +1,6 @@
 package com.example.s2udy.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,8 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -36,10 +35,14 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+import com.parse.livequery.ParseLiveQueryClient;
+import com.parse.livequery.SubscriptionHandling;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,7 @@ import me.relex.circleindicator.CircleIndicator3;
 public class ListFragment extends Fragment
 {
     public static final String TAG = "ListFragment";
+    public static final String WEBSOCKET = "wss://s2udy.b4a.io";
     Room room;
     List<ListItem> items;
     ListAdapter adapter;
@@ -77,14 +81,11 @@ public class ListFragment extends Fragment
 
         cvList = view.findViewById(R.id.cvList);
         tvTitle = view.findViewById(R.id.tvTitle);
-        etItem = view.findViewById(R.id.etItem);
+        etItem = view.findViewById(R.id.etDialog);
         rvList = view.findViewById(R.id.rvList);
         btnAdd = view.findViewById(R.id.btnAdd);
         btnClear = view.findViewById(R.id.btnClear);
         RelativeLayout rlItem = view.findViewById(R.id.rlItem);
-
-        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
-        cvList.startAnimation(bottomUp);
 
         TabLayout tabLayout = requireActivity().findViewById(R.id.tabLayout);
         CircleIndicator3 indicator = requireActivity().findViewById(R.id.indicator);
@@ -126,8 +127,8 @@ public class ListFragment extends Fragment
             @Override
             public void onItemLongClicked(int position)
             {
-                View editDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_list, null);
-                etEdit = editDialog.findViewById(R.id.etItem);
+                View editDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit, null);
+                etEdit = editDialog.findViewById(R.id.etDialog);
                 etEdit.setText(items.get(position).getBody());
 
                 AlertDialog dialog = new AlertDialog.Builder(getContext())
@@ -171,8 +172,9 @@ public class ListFragment extends Fragment
         };
 
         adapter = new ListAdapter(getContext(), items, longClickListener, checkedChangeListener);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvList.setAdapter(adapter);
-        rvList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvList.setLayoutManager(linearLayoutManager);
         loadItems();
 
         btnAdd.setOnClickListener(new View.OnClickListener()
@@ -199,10 +201,67 @@ public class ListFragment extends Fragment
                 clearItems();
             }
         });
+        // live refresh for when user adds list item
+        ParseLiveQueryClient parseLiveQueryClient = null;
+        try
+        { parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient(new URI(WEBSOCKET)); }
+        catch (URISyntaxException e)
+        { e.printStackTrace(); }
+
+        ParseQuery<ListItem> query = ParseQuery.getQuery(ListItem.class);
+        SubscriptionHandling<ListItem> subscriptionHandling = parseLiveQueryClient.subscribe(query);
+        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ListItem>()
+        {
+            @Override
+            public void onEvents(ParseQuery<ListItem> query, SubscriptionHandling.Event event, ListItem object)
+            {
+                switch (event)
+                {
+                    case CREATE:
+                        Log.i(TAG, "CREATE event");
+                        items.add(items.size(), object);
+                        ((Activity)getContext()).runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                adapter.notifyItemInserted(items.size() - 1);
+                                rvList.smoothScrollToPosition(items.size() - 1);
+                            }
+                        });
+                        break;
+                    case UPDATE:
+                        Log.i(TAG, "UPDATE event");
+                        ((Activity)getContext()).runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                loadItems();
+                            }
+                        });
+                        break;
+                    case DELETE:
+                        Log.i(TAG, "DELETE event");
+                        ((Activity)getContext()).runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                loadItems();
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     private void loadItems()
     {
+        items.clear();
         ParseQuery<ListItem> query = ParseQuery.getQuery(ListItem.class);
         query.findInBackground(new FindCallback<ListItem>()
         {
@@ -239,8 +298,6 @@ public class ListFragment extends Fragment
                     Log.e(TAG, "saveItem() error in saving: ", e);
                     return;
                 }
-                items.add(newItem);
-                adapter.notifyItemInserted(items.size() - 1);
                 Log.i(TAG, "saveItem() successful");
             }
         });
@@ -261,7 +318,6 @@ public class ListFragment extends Fragment
                     return;
                 }
                 Log.i(TAG, "editItem() successful");
-                adapter.notifyDataSetChanged();
             }
         });
         etEdit.setText("");
