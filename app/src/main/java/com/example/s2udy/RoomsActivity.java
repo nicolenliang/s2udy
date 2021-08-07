@@ -130,7 +130,6 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
         allTags.add(1, "chat disabled");
         allTags.add(2, "private");
         spinner.setItems(allTags);
-        spinner.setHint("apply a filter!");
         spinner.setOnItemSelectedListener(new MultiSelectionSpinner.OnItemSelectedListener()
         {
             @Override
@@ -174,7 +173,14 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
                 if (!selectedTags.isEmpty() || !search.isEmpty())
                 {
                     if (!selectedTags.isEmpty())
-                        filterTags();
+                        if (selectedTags.contains("chat enabled"))
+                            filterChat(true);
+                        else if (selectedTags.contains("chat disabled"))
+                            filterChat(false);
+                        else if (selectedTags.contains("private"))
+                            filterPasscode();
+                        else
+                            filterTags();
                     if (!search.isEmpty())
                         filterSearch(search);
                 }
@@ -198,7 +204,7 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
     {
         ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
         query.include(Room.KEY_HOST);
-        query.whereNotEqualTo(Room.KEY_PASSCODE, null);
+        query.whereNotEqualTo(Room.KEY_PASSCODE, "");
         query.findInBackground(new FindCallback<Room>()
         {
             @Override
@@ -262,6 +268,7 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
         });
         Toast.makeText(RoomsActivity.this, "room \"" + room.getName() + "\" deleted!", Toast.LENGTH_SHORT).show();
         rooms.remove(room);
+        queryRooms();
     }
 
     private void filterSearch(String search)
@@ -282,6 +289,9 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
                 catch (ParseException e)
                 { e.printStackTrace(); }
             }
+            for (String tag : room.getTags())
+                if (tag.contains(search))
+                    filtered.add(room);
         }
         adapter.clear();
         rooms.addAll(filtered);
@@ -430,9 +440,11 @@ public class RoomsActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(RoomsActivity.this, "logout successful!",Toast.LENGTH_SHORT).show();
                     }
                 });
+                break;
             case R.id.action_profile:
                 Intent i = new Intent(RoomsActivity.this, ProfileActivity.class);
                 startActivity(i);
+                break;
         }
         return true;
     }

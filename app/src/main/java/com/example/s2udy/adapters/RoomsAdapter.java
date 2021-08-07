@@ -110,8 +110,10 @@ public class RoomsAdapter extends RecyclerView.Adapter
             tags = tags.substring(1, tags.length() - 1);
             tvTags.setText("tags: " + tags);
             tvDescription.setText(room.getDescription());
-            if (!(room.getPasscode() == null))
+            if (!(room.getPasscode().isEmpty()))
                 ivLocked.setVisibility(View.VISIBLE);
+            else
+                ivLocked.setVisibility(View.GONE);
         }
 
         // click to navigate to in-room screen
@@ -128,7 +130,7 @@ public class RoomsAdapter extends RecyclerView.Adapter
                 Intent i = new Intent(context, InRoomActivity.class);
                 i.putExtra(Room.class.getSimpleName(), Parcels.wrap(room));
 
-                if (room.getPasscode() == null)
+                if (room.getPasscode().isEmpty())
                     context.startActivity(i);
                 else
                 {
