@@ -20,7 +20,7 @@
         android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_title"
         android:text="CREATE ROOM"
         android:textAlignment="center"
         android:textSize="34sp" />
@@ -31,10 +31,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="room name*"
-        android:inputType="text" />
+        android:inputType="text"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <EditText
         android:id="@+id/etDescription"
@@ -42,10 +45,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="description*"
-        android:inputType="text" />
+        android:inputType="text"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 
     <EditText
         android:id="@+id/etPasscode"
@@ -53,10 +59,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/etDescription"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="passcode"
-        android:inputType="text" />
+        android:inputType="text"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 
     <EditText
         android:id="@+id/etMusic"
@@ -64,13 +73,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/etPasscode"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="spotify link*"
         android:inputType="none"
         android:maxLines="1"
         android:selectAllOnFocus="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 
     <EditText
         android:id="@+id/etZoom"
@@ -78,10 +90,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etMusic"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="other link"
-        android:inputType="text" />
+        android:inputType="text"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 
     <TextView
         android:id="@+id/tvTags"
@@ -100,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTags"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
 
         <com.zeeshan.material.multiselectionspinner.MultiSelectionSpinner
@@ -108,8 +123,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
+            android:background="@drawable/rounded_rectangle_edittext"
             android:ems="10"
             android:hint="choose tags"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:singleLine="true" />
 
         <EditText
@@ -117,9 +135,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_rectangle_edittext"
             android:ems="10"
             android:hint="create tags"
-            android:inputType="text" />
+            android:inputType="text"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
 
     </LinearLayout>
 
@@ -129,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="enable chat?* "
         android:textSize="16sp" />
 
@@ -140,7 +162,7 @@
         android:layout_below="@+id/switchChat"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_title"
         android:text="create" />
 
     <TextView

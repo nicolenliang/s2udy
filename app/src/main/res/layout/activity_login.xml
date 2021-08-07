@@ -34,10 +34,12 @@
         android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="username"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -46,20 +48,22 @@
         android:layout_below="@+id/etUsername"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etPassword"
+        android:layout_below="@+id/button"
         android:layout_alignParentEnd="false"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_title"
         android:text="log in" />
 
     <Button
@@ -71,5 +75,19 @@
         android:layout_centerHorizontal="true"
         android:text="no account? sign up!"
         android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etPassword"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="70dp"
+        android:includeFontPadding="false"
+        android:text="forgot password?"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:textSize="12sp" />
 
 </RelativeLayout>

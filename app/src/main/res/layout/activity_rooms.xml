@@ -39,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="75dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_title"
         android:text="JOIN ROOMS"
         android:textSize="34sp" />
 
@@ -50,7 +50,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -65,7 +67,7 @@
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
                 android:hint="select tags"
@@ -76,7 +78,7 @@
                 android:id="@+id/etSearch"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
                 android:layout_toEndOf="@+id/spinner"

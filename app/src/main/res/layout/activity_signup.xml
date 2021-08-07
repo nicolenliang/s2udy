@@ -13,9 +13,24 @@
         android:layout_height="75dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         app:srcCompat="@drawable/s2udy_logo"
         app:tint="@color/colorPrimaryVariant" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvInformation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_rectangle_edittext"
+        android:ems="10"
+        android:hint="name"
+        android:includeFontPadding="true"
+        android:inputType="textPersonName"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -24,10 +39,12 @@
         android:layout_below="@+id/etName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="username"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -36,10 +53,12 @@
         android:layout_below="@+id/etUsername"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -48,10 +67,12 @@
         android:layout_below="@+id/etEmail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_edittext"
         android:ems="10"
         android:hint="password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -70,21 +91,9 @@
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_title"
         android:text="sign up"
         android:textColor="#FFFFFF" />
-
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvInformation"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_rectangle"
-        android:ems="10"
-        android:hint="name"
-        android:inputType="textPersonName" />
 
     <ImageView
         android:id="@+id/ivProfile"
@@ -92,7 +101,7 @@
         android:layout_height="100dp"
         android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         app:srcCompat="@drawable/ic_baseline_account_circle" />
 
     <Button

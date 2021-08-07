@@ -20,7 +20,7 @@
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_title"
         android:text="USER PROFILE"
         android:textSize="34sp" />
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/tvName"
@@ -70,10 +70,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:background="@drawable/rounded_rectangle_edittext"
                 android:ems="10"
                 android:enabled="false"
                 android:inputType="text"
-                tools:text="Name" />
+                tools:text="Name"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
 
         </TableRow>
 
@@ -82,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/tvUsername"
@@ -95,10 +98,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:background="@drawable/rounded_rectangle_edittext"
                 android:ems="10"
                 android:enabled="false"
                 android:inputType="text"
-                tools:text="Username" />
+                tools:text="Username"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
 
         </TableRow>
 
@@ -107,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/tvEmail"
@@ -120,10 +126,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:background="@drawable/rounded_rectangle_edittext"
                 android:ems="10"
                 android:enabled="false"
                 android:inputType="textEmailAddress"
-                tools:text="Email" />
+                tools:text="Email"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
 
         </TableRow>
 
@@ -144,10 +153,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:background="@drawable/rounded_rectangle_edittext"
                 android:ems="10"
                 android:enabled="false"
                 android:inputType="textPassword"
-                tools:text="Password" />
+                tools:text="Password"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
         </TableRow>
 
     </TableLayout>
@@ -159,7 +171,7 @@
         android:layout_below="@+id/btnEdit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/rounded_rectangle_title"
         android:text="save" />
 
     <Button
