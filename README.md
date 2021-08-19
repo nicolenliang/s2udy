@@ -1,10 +1,10 @@
 # s2udy - Original App Design Project
 
 ## Table of Contents
-1. [Overview](##Overview)
-1. [Product Specs](##Product-Specs)
-1. [Wireframes](##Wireframes)
-2. [Schema](##Schema)
+1. [Overview](#Overview)
+1. [Product Specs](#Product-Specs)
+1. [Wireframes](#Wireframes)
+2. [Schema](#Schema)
 
 ## Overview
 
