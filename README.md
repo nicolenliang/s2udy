@@ -1,17 +1,17 @@
 # s2udy - Original App Design Project
 
 ## Table of Contents
-1. [Overview](#Overview)
-1. [Product Specs](#Product-Specs)
-1. [Wireframes](#Wireframes)
-2. [Schema](#Schema)
+1. [Overview](##Overview)
+1. [Product Specs](##Product-Specs)
+1. [Wireframes](##Wireframes)
+2. [Schema](##Schema)
 
 ## Overview
 
 ### Description
 s2udy is an app to connect both friends and strangers to study together. 
-#### Gif
-<img src="walkthrough.gif" width=300 />
+#### Walkthrough
+[![s2udy DEMO](https://yt-embed.herokuapp.com/embed?v=a2Xb_neF_Uc)](https://www.youtube.com/watch?v=a2Xb_neF_Uc "s2udy DEMO")
 
 ### App Evaluation
 - <u>Category:</u>  Mobile; Social; Productivity
@@ -40,17 +40,19 @@ s2udy is an app to connect both friends and strangers to study together.
         - [x] The app uses at least one gesture (e.g. double tap to like, e.g. pinch to scale)
         - [x] The app uses at least one animation (e.g. fade in/out, e.g. animating a view growing and shrinking)
         - [x] The app incorporates at least one external library to add visual polish
-        - [] The app provides opportunities for you to overcome difficult/ambiguous technical problems (more belo
+        - [x] The app provides opportunities for you to overcome difficult/ambiguous technical problems
 
-    * Optional Nice-to-have Stories
-        - [ ] User can create private rooms
-        - [ ] User can share rooms through invitation links
+    * Additional Stretch Stories
+        - [x] User can create private rooms
+        - [x] User can add tags to their room
+        - [x] User can delete a room they created
         - [x] User can upload and edit a profile picture
-        - [ ] User can search for songs within the app
-        - [ ] User can filter rooms according to:
-            - [ ] Tags
-            - [ ] Room size
-            - [ ] Room settings (chat enabled, public/private)
+        - [x] User can filter/search rooms according to:
+            - [x] Room Tags
+            - [x] Room settings (chat enabled, public/private)
+            - [x] Room name
+            - [x] Users in room
+        - [x] Rooms have color-coordinated task list items, specific to each user
             
 
 ##### 2. Screen Archetypes
@@ -107,8 +109,7 @@ s2udy is an app to connect both friends and strangers to study together.
             --> Home room screen 
 
 
-## Wireframes
-### [BONUS] Digital Wireframes & Mockups
+## Wireframe
 <img src="FBU APP.png" width=600>
 
 ## Schema 
