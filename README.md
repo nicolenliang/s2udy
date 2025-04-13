@@ -11,7 +11,7 @@
 ### Description
 s2udy is an app to connect both friends and strangers to study together. 
 #### Walkthrough
-[![s2udy DEMO](https://yt-embed.herokuapp.com/embed?v=a2Xb_neF_Uc)](https://www.youtube.com/watch?v=a2Xb_neF_Uc "s2udy DEMO")
+[![s2udy DEMO](https://img.youtube.com/vi/a2Xb_neF_Uc/0.jpg)](https://www.youtube.com/watch?v=a2Xb_neF_Uc)
 
 ### App Evaluation
 - <u>Category:</u>  Mobile; Social; Productivity
